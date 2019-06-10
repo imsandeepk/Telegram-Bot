@@ -21,7 +21,7 @@ from .model.story import Story
 from .model.user_stories import UserStories
 from .model.tag import Tag
 
-from .endpoints.endpoints import Endpoints
+from .endpoints import endpoints
 
 from .two_step_verification.console_verification import ConsoleVerification
 
@@ -97,7 +97,7 @@ class Instagram:
         Set how many media objects should be retrieved in a single request
         param int count
         '''
-        Endpoints.request_media_count = count
+        endpoints.request_media_count = count
 
     def get_account_by_id(self, id):
         '''
@@ -118,7 +118,7 @@ class Instagram:
         throws InstagramException
         throws InstagramNotFoundException
         '''
-        response = self.__req.get(Endpoints.get_account_json_private_info_link_by_account_id(
+        response = self.__req.get(endpoints.get_account_json_private_info_link_by_account_id(
             id), headers=self.generate_headers(self.user_session))
 
         if Instagram.HTTP_NOT_FOUND == response.status_code:
@@ -156,7 +156,7 @@ class Instagram:
 
             headers = {
                 'cookie': cookies,
-                'referer': Endpoints.BASE_URL + '/',
+                'referer': endpoints.BASE_URL + '/',
                 'x-csrftoken': csrf
             }
 
@@ -203,7 +203,7 @@ class Instagram:
 
         return response.text
         
-    def __get_shared_data_from_page(self, url = Endpoints.BASE_URL):
+    def __get_shared_data_from_page(self, url = endpoints.BASE_URL):
         '''
         param string $url
         return mixed|null
@@ -244,7 +244,7 @@ class Instagram:
         throws InstagramNotFoundException
         '''
         # TODO: Add tests and auth
-        response = self.__req.get(Endpoints.get_general_search_json_link(tag))
+        response = self.__req.get(endpoints.get_general_search_json_link(tag))
 
         if Instagram.HTTP_NOT_FOUND == response.status_code:
             raise InstagramNotFoundException('Account with given username does not exist.')
@@ -297,7 +297,7 @@ class Instagram:
         throws InstagramException
         throws InstagramNotFoundException
         '''
-        url = Endpoints.get_media_page_link(media_code)
+        url = endpoints.get_media_page_link(media_code)
         return self.get_media_by_url(url)
 
     def get_medias_by_user_id(self, id, count = 12, max_id = ''):
@@ -324,7 +324,7 @@ class Instagram:
 
             headers = self.generate_headers(self.user_session, self.__generate_gis_token(variables))
 
-            response = self.__req.get(Endpoints.get_account_medias_json_link(variables), headers=headers)
+            response = self.__req.get(endpoints.get_account_medias_json_link(variables), headers=headers)
 
             if (Instagram.HTTP_OK != response.status_code):
                 raise InstagramException.default(response.text, response.status_code)
@@ -406,7 +406,7 @@ class Instagram:
         '''
         medias = []
         index = 0
-        response = self.__req.get(Endpoints.get_account_json_link(username), headers=self.generate_headers(self.user_session))
+        response = self.__req.get(endpoints.get_account_json_link(username), headers=self.generate_headers(self.user_session))
 
         if (Instagram.HTTP_NOT_FOUND == response.status_code):
             raise InstagramNotFoundException('Account with given username does not exist.')
@@ -453,7 +453,7 @@ class Instagram:
         has_next_page = True
         while index < count and has_next_page:
 
-            response = self.__req.get(Endpoints.get_medias_json_by_tag_link(tag, max_id),
+            response = self.__req.get(endpoints.get_medias_json_by_tag_link(tag, max_id),
                 headers=self.generate_headers(self.user_session))
 
             if response.status_code != Instagram.HTTP_OK:
@@ -508,7 +508,7 @@ class Instagram:
 
         while index < quantity and has_next:
 
-            response = self.__req.get(Endpoints.get_medias_json_by_location_id_link(facebook_location_id, offset),
+            response = self.__req.get(endpoints.get_medias_json_by_location_id_link(facebook_location_id, offset),
                 headers=self.generate_headers(self.user_session))
 
             if response.status_code != Instagram.HTTP_OK:
@@ -542,7 +542,7 @@ class Instagram:
         throws InstagramNotFoundException
         '''
 
-        response = self.__req.get(Endpoints.get_medias_json_by_tag_link(tag_name, ''),
+        response = self.__req.get(endpoints.get_medias_json_by_tag_link(tag_name, ''),
             headers=self.generate_headers(self.user_session))
 
         if response.status_code == Instagram.HTTP_NOT_FOUND:
@@ -570,7 +570,7 @@ class Instagram:
         throws InstagramException
         throws InstagramNotFoundException
         '''
-        response = self.__req.get(Endpoints.get_medias_json_by_location_id_link(facebook_location_id),
+        response = self.__req.get(endpoints.get_medias_json_by_location_id_link(facebook_location_id),
             headers=self.generate_headers(self.user_session))
         if response.status_code == Instagram.HTTP_NOT_FOUND:
             raise InstagramNotFoundException("Location with this id doesn't exist")
@@ -610,12 +610,12 @@ class Instagram:
 
         variables = json.dumps({
             'id' : str(account.identifier),
-            'first' : str(Endpoints.request_media_count),
+            'first' : str(endpoints.request_media_count),
             'after' : str(max_id)
         })
 
         response = self.__req.get(
-            Endpoints.get_account_medias_json_link(variables),
+            endpoints.get_account_medias_json_link(variables),
             headers=self.generate_headers(self.user_session, self.__generate_gis_token(variables))
         )
 
@@ -664,7 +664,7 @@ class Instagram:
             'hasNextPage' : has_next_page,
         }
 
-        response = self.__req.get(Endpoints.get_medias_json_by_tag_link(tag, max_id),
+        response = self.__req.get(endpoints.get_medias_json_by_tag_link(tag, max_id),
             headers=self.generate_headers(self.user_session))
 
         if response.status_code != Instagram.HTTP_OK :
@@ -708,7 +708,7 @@ class Instagram:
         throws InstagramException
         throws InstagramNotFoundException
         '''
-        response = self.__req.get(Endpoints.get_medias_json_by_location_id_link(facebook_location_id),
+        response = self.__req.get(endpoints.get_medias_json_by_location_id_link(facebook_location_id),
             headers=self.generate_headers(self.user_session))
 
         if response.status_code == Instagram.HTTP_NOT_FOUND:
@@ -750,7 +750,7 @@ class Instagram:
         #     if (maxId != None):
         #         maxId = ''
 
-        #     commentsUrl = Endpoints.getLastLikesByCode(code, numberOfLikesToRetreive, maxId)
+        #     commentsUrl = endpoints.getLastLikesByCode(code, numberOfLikesToRetreive, maxId)
         #     response = self.__req.get(commentsUrl, headers=self.generateHeaders(self.userSession))
 
         #     if (response.status_code != Instagram.HTTP_OK):
@@ -809,7 +809,7 @@ class Instagram:
         while (True):
             next_page = None
             print(self.is_logged_in(self.user_session))
-            response = self.__req.get(Endpoints.get_followers_json_link(account_id, page_size, end_cursor),
+            response = self.__req.get(endpoints.get_followers_json_link(account_id, page_size, end_cursor),
                 headers=self.generate_headers(self.user_session))
 
             if (response.status_code != Instagram.HTTP_OK):
@@ -889,7 +889,7 @@ class Instagram:
     #     while (true) {
     #         $next_page = null;
 
-    #         $response = Request::get(Endpoints::getFollowingJsonLink($accountId, $pageSize, $endCursor),
+    #         $response = Request::get(endpoints::getFollowingJsonLink($accountId, $pageSize, $endCursor),
     #             $this->generateHeaders($this->userSession));
 
     #         if ($response->code !== static::HTTP_OK) {
@@ -981,7 +981,7 @@ class Instagram:
                 'after' : str(max_id)
             })
 
-            comments_url = Endpoints.get_comments_before_comments_id_by_code(variables)
+            comments_url = endpoints.get_comments_before_comments_id_by_code(variables)
             print(comments_url)
             response = self.__req.get(comments_url, headers=self.generate_headers(self.user_session, self.__generate_gis_token(variables)))
             # use a raw constant in the code is not a good idea!!
@@ -1021,7 +1021,7 @@ class Instagram:
         throws InstagramException
         throws InstagramNotFoundException
         '''
-        response = self.__req.get(Endpoints.get_account_page_link(
+        response = self.__req.get(endpoints.get_account_page_link(
             username), headers=self.generate_headers(self.user_session))
 
         if (Instagram.HTTP_NOT_FOUND == response.status_code):
@@ -1049,7 +1049,7 @@ class Instagram:
         variables = {'precomposed_overlay' : False, 'reel_ids' : []}
 
         if reel_ids == None or len(reel_ids) == 0:
-            response = self.__req.get(Endpoints.get_user_stories_link(),
+            response = self.__req.get(endpoints.get_user_stories_link(),
                 headers=self.generate_headers(self.user_session))
 
             if (Instagram.HTTP_OK != response.status_code):
@@ -1068,7 +1068,7 @@ class Instagram:
         else:
             variables['reel_ids'] = reel_ids
 
-        response = self.__req.get(Endpoints.get_stories_link(variables),
+        response = self.__req.get(endpoints.get_stories_link(variables),
             headers=self.generate_headers(self.user_session))
 
         if (Instagram.HTTP_OK != response.status_code):
@@ -1104,7 +1104,7 @@ class Instagram:
         throws InstagramNotFoundException
         '''
     
-        response = self.__req.get(Endpoints.get_general_search_json_link(username), headers=self.generate_headers(self.user_session))
+        response = self.__req.get(endpoints.get_general_search_json_link(username), headers=self.generate_headers(self.user_session))
 
         if (Instagram.HTTP_NOT_FOUND == response.status_code):
             raise InstagramNotFoundException('Account with given username does not exist.')
@@ -1143,7 +1143,7 @@ class Instagram:
         return array
         throws InstagramException
         '''
-        url = Endpoints.get_media_json_link(code)
+        url = endpoints.get_media_json_link(code)
 
         response = self.__req.get(url, headers=self.generate_headers(self.user_session))
 
@@ -1188,13 +1188,13 @@ class Instagram:
 
         headers = {
             'cookie' : f"ig_cb=1; csrftoken={csrf_token}; sessionid={session_id};",
-            'referer' : Endpoints.BASE_URL + '/',
+            'referer' : endpoints.BASE_URL + '/',
             'x-csrftoken' : csrf_token,
             'X-CSRFToken' : csrf_token,
             'user-agent' : self.user_agent,
         }
 
-        response = self.__req.get(Endpoints.BASE_URL, headers=headers)
+        response = self.__req.get(endpoints.BASE_URL, headers=headers)
 
         if (response.status_code != Instagram.HTTP_OK):
             return False
@@ -1229,7 +1229,7 @@ class Instagram:
         session = json.loads(Instagram.instance_cache.get_saved_cookies()) if Instagram.instance_cache.get_saved_cookies() != None else None
 
         if force or not self.is_logged_in(session):
-            response = self.__req.get(Endpoints.BASE_URL)
+            response = self.__req.get(endpoints.BASE_URL)
             if (response.status_code != Instagram.HTTP_OK):
                 raise InstagramException.default(response.text, response.status_code)
             
@@ -1245,13 +1245,13 @@ class Instagram:
 
             headers = {
                 'cookie' : f"ig_cb=1; csrftoken={csrfToken}; mid={mid};",
-                'referer' : Endpoints.BASE_URL + '/',
+                'referer' : endpoints.BASE_URL + '/',
                 'x-csrftoken' : csrfToken,
                 'X-CSRFToken' : csrfToken,
                 'user-agent' : self.user_agent,
             }
             payload = {'username' : self.session_username, 'password': self.session_password}
-            response = self.__req.post(Endpoints.LOGIN_URL, data=payload,headers=headers)
+            response = self.__req.post(endpoints.LOGIN_URL, data=payload,headers=headers)
             
             if (response.status_code != Instagram.HTTP_OK):
                 if (
@@ -1302,12 +1302,12 @@ class Instagram:
 
         headers = {
             'cookie' : cookie_string,
-            'referer' : Endpoints.LOGIN_URL,
+            'referer' : endpoints.LOGIN_URL,
             'x-csrftoken' : cookies['csrftoken'],
             'user-agent' : self.user_agent,
         }
 
-        url = Endpoints.BASE_URL + response.json()['checkpoint_url']
+        url = endpoints.BASE_URL + response.json()['checkpoint_url']
 
         response = self.__req.get(url, headers=headers)
         data = Instagram.extract_shared_data_from_body(response.text)
@@ -1369,7 +1369,7 @@ class Instagram:
 
         body = {'comment_text' : text, 'replied_to_comment_id' : replied_to_comment_id if replied_to_comment_id != None else ''}
 
-        response = self.__req.post(Endpoints.get_add_comment_url(media_id), data=body, headers=self.generate_headers(self.user_session))
+        response = self.__req.post(endpoints.get_add_comment_url(media_id), data=body, headers=self.generate_headers(self.user_session))
 
         if (Instagram.HTTP_OK != response.status_code):
             raise InstagramException.default(response.text, response.status_code)
@@ -1393,7 +1393,7 @@ class Instagram:
         media_id = media_id.identifier if isinstance(media_id, Media) else media_id
         comment_id = comment_id._data['id'] if isinstance(comment_id, Comment) else comment_id
 
-        response = self.__req.post(Endpoints.get_delete_comment_url(media_id, comment_id), headers=self.generate_headers(self.user_session))
+        response = self.__req.post(endpoints.get_delete_comment_url(media_id, comment_id), headers=self.generate_headers(self.user_session))
 
         if (Instagram.HTTP_OK != response.status_code):
             raise InstagramException.default(response.text, response.status_code)
@@ -1412,7 +1412,7 @@ class Instagram:
         throws InstagramException
         '''
         media_id = media_id.identifier if isinstance(media_id, Media) else media_id
-        response = self.__req.post(Endpoints.get_like_url(media_id), headers=self.generate_headers(self.user_session))
+        response = self.__req.post(endpoints.get_like_url(media_id), headers=self.generate_headers(self.user_session))
 
         if (Instagram.HTTP_OK != response.status_code):
             raise InstagramException.default(response.text, response.status_code)
@@ -1430,7 +1430,7 @@ class Instagram:
         throws InstagramException
         '''
         media_id = media_id.identifier if isinstance(media_id, Media) else media_id
-        response = self.__req.post(Endpoints.get_unlike_url(media_id), headers=self.generate_headers(self.user_session))
+        response = self.__req.post(endpoints.get_unlike_url(media_id), headers=self.generate_headers(self.user_session))
 
         if (Instagram.HTTP_OK != response.status_code):
             raise InstagramException.default(response.text, response.status_code)

@@ -2,7 +2,7 @@ import urllib.parse
 import textwrap
 
 from .initializer_model import InitializerModel
-from ..endpoints.endpoints import Endpoints
+from ..endpoints import endpoints
 from .comment import Comment
 # there is one more import when Media.owner is set
 
@@ -29,7 +29,7 @@ class Media(InitializerModel):
     @staticmethod
     def get_link_from_id(id):
         code = Media.get_code_from_id(id)
-        return Endpoints.get_media_page_link(code)
+        return endpoints.get_media_page_link(code)
 
     @staticmethod
     def get_code_from_id(id):
@@ -86,7 +86,7 @@ class Media(InitializerModel):
 
         elif prop == 'code':
             self.short_code = value
-            self.link = Endpoints.get_media_page_link(self.short_code)
+            self.link = endpoints.get_media_page_link(self.short_code)
 
         elif prop == 'comments':
             self.comments_count = arr[prop]['count']
@@ -159,7 +159,7 @@ class Media(InitializerModel):
 
         elif prop == 'shortcode':
             self.short_code = value
-            self.link = Endpoints.get_media_page_link(self.short_code)
+            self.link = endpoints.get_media_page_link(self.short_code)
 
         elif prop == 'edge_media_to_comment':
             try:
@@ -262,9 +262,9 @@ class Media(InitializerModel):
         parts = '/'.split(urllib.parse(image_url)['path'])
         imageName = parts[len(parts) - 1]
         urls = {
-            'thumbnail' : Endpoints.INSTAGRAM_CDN_URL + 't/s150x150/' + imageName,
-            'low' : Endpoints.INSTAGRAM_CDN_URL + 't/s320x320/' + imageName,
-            'standard' : Endpoints.INSTAGRAM_CDN_URL + 't/s640x640/' + imageName,
-            'high' : Endpoints.INSTAGRAM_CDN_URL + 't/' + imageName,
+            'thumbnail' : endpoints.INSTAGRAM_CDN_URL + 't/s150x150/' + imageName,
+            'low' : endpoints.INSTAGRAM_CDN_URL + 't/s320x320/' + imageName,
+            'standard' : endpoints.INSTAGRAM_CDN_URL + 't/s640x640/' + imageName,
+            'high' : endpoints.INSTAGRAM_CDN_URL + 't/' + imageName,
         }
         return urls

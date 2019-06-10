@@ -1,6 +1,6 @@
 from context import Instagram # pylint: disable=no-name-in-module
 
-account = Instagram().getAccountById('3')
+account = Instagram().get_account_by_id('3')
 
 # Available fields
 print(account)

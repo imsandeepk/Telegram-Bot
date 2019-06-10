@@ -1,9 +1,9 @@
 from context import Instagram # pylint: disable=no-name-in-module
 
-instagram = Instagram.withCredentials('username', 'password', 'path/to/cache/folder')
+instagram = Instagram.with_credentials('username', 'password', 'path/to/cache/folder')
 instagram.login()
 
-medias = instagram.getMediasByTag('instagood', count=20)
+medias = instagram.get_medias_by_tag('instagood', count=20)
 
 for media in medias:
     print(media)

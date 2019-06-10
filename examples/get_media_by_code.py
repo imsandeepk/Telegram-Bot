@@ -7,7 +7,7 @@ instagram = Instagram()
 # instagram = Instagram.withCredentials('username', 'password', 'cachepath')
 # instagram.login()
 
-media = instagram.getMediaByCode('BHaRdodBouH')
+media = instagram.get_medias_by_code('BHaRdodBouH')
 
 print(media)
 print(media.owner)

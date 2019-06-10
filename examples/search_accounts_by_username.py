@@ -1,9 +1,9 @@
 from context import Instagram # pylint: disable=no-name-in-module
 
-instagram = Instagram.withCredentials('username', 'password', 'path/to/cache/folder')
+instagram = Instagram.with_credentials('username', 'password', 'path/to/cache/folder')
 instagram.login()
 
-accounts = instagram.searchAccountsByUsername('Kevin M')
+accounts = instagram.search_accounts_by_username('Kevin M')
 
 account = accounts[0]
 # Following fields are available in this request

@@ -24,19 +24,19 @@ from instagram_scraper.instagram import Instagram
 instagram = Instagram()
 
 # authentication supported
-instagram = Instagram.withCredentials('username', 'password')
+instagram = Instagram.with_credentials('username', 'password')
 instagram.login()
 
-account = instagram.getAccountById(3)
+account = instagram.get_account_by_id(3)
 # Available fields
 print('Account info:')
 print('Id', account.identifier)
 print('Username', account.username)
 print('Full name', account.full_name)
 print('Biography', account.biography)
-print('Profile pic url', account.getProfilePicUrlHd())
+print('Profile pic url', account.get_profile_pic_url_hd())
 print('External Url', account.external_url)
-print('Number of published posts', account.mediaCount)
+print('Number of published posts', account.media_count)
 print('Number of followers', account.followed_by_count)
 print('Number of follows', account.follows_count)
 print('Is private', account.is_private)
@@ -65,7 +65,7 @@ proxies = {
 instagram = Instagram()
 instagram.set_proxies(proxies)
 
-account = instagram.getAccount('kevin')
+account = instagram.get_account('kevin')
 print(account.identifier)
 ```
 

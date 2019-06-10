@@ -1,3 +1,4 @@
+<img src="https://raw.githubusercontent.com/SergioWagenleitner/designs/master/flat_illustration.png" align="right">
 # instagram_scaper
 A minimalistic instagram scraper wrote in python. 
 fetch medias, accounts, videos, comments and more. 

@@ -40,14 +40,30 @@ print('Is verified', account.is_verified)
 # or simply for printing use 
 print(account)
 ```
-If you use authentication the program will cache the user session by default so that you don't need to gain session everytime.  
-If one want to disable the user session cache, assign `True` to login() method
+If you use authentication the program will cache the user session by default so one doen't need to create session everytime.  
+If one want to disable the user session cache, assign `True` to Instagram.login() method
 
 Two Factor Authentification is also supported through cli interface, simply use 'True' for second argument of login() function 
   
 Many of the methods do not require authentication
 
 for more info browse through the examples folder
+
+Using proxy for requests:
+```python
+from instagram_scraper.instagram import Instagram
+
+proxies = {
+    'http': 'http://123.45.67.8:1087',
+    'https': 'http://123.45.67.8:1087',
+}
+
+instagram = Instagram()
+instagram.set_proxies(proxies)
+
+account = instagram.getAccount('kevin')
+print(account.identifier)
+```
 
 ## more usages
 See examples folder 

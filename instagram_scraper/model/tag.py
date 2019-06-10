@@ -2,7 +2,7 @@ from .initializer_model import InitializerModel
 
 class Tag(InitializerModel):
 
-    def _initPropertiesCustom(self, value, prop, arr):
+    def _init_properties_custom(self, value, prop, arr):
 
         if prop == 'id':
             self.identifier = value

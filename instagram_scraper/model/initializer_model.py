@@ -5,11 +5,11 @@ class InitializerModel:
 
     def __init__(self, props = None):
 
-        self._isNew = True
-        self._isLoaded = False
+        self._is_new = True
+        self._is_loaded = False
         '''init data was empty'''
-        self._isLoadEmpty = True
-        self._isFake = False
+        self._is_load_empty = True
+        self._is_fake = False
         self._modified = None
     
         '''Array of initialization data'''
@@ -31,15 +31,15 @@ class InitializerModel:
         
         for key in props.keys():
             try:
-                self._initPropertiesCustom(props[key], key, props)
+                self._init_properties_custom(props[key], key, props)
             except AttributeError:
                 #if function does not exist fill help data array
                 self._data[key] = props[key]
 
 
-        self._isNew = False
-        self.isLoaded = True
-        self.isLoadEmpty = False
+        self._is_new = False
+        self._is_loaded = True
+        self._is_load_empty = False
 
     # '''
     #  * @return $this

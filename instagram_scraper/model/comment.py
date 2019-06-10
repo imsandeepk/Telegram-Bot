@@ -7,7 +7,7 @@ class Comment(InitializerModel):
      * @param $value
      * @param $prop
      '''
-    def initPropertiesCustom(self, value, prop):
+    def init_properties_custom(self, value, prop):
         if prop == 'id':
            self.identifier = value
 

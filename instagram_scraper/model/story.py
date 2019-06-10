@@ -14,17 +14,17 @@ class Story(Media):
     #  param prop
     #  param arr
 
-    def _initPropertiesCustom(self, value, prop, arr):
+    def _init_properties_custom(self, value, prop, arr):
         if prop in Story.skip_prop:
             return
         
-        super()._initPropertiesCustom(value, prop, arr)
+        super()._init_properties_custom(value, prop, arr)
 
     def __str__(self):
         string=f'''
         Story Info:
         'Id: {self.identifier}
-        Hig res image: {self.imageHighResolutionUrl}
+        Hig res image: {self.image_high_resolution_url}
         Media type: {self.type if hasattr(self, 'type') else ''}
         '''
         

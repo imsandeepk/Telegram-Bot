@@ -7,7 +7,7 @@ class Account(InitializerModel):
     def __init__(self, props = None):
         super(Account, self).__init__(props)
 
-    def getProfilePicUrlHd(self):
+    def get_profile_picture_url(self):
         try:
             if (self.profile_pic_url_hd != ''):
                 return self.profile_pic_url_hd
@@ -24,9 +24,9 @@ class Account(InitializerModel):
         Username: {self.username if hasattr(self, 'username') else '-'}
         Full Name: {self.full_name if hasattr(self, 'full_name') else '-'}
         Bio: {self.biography if hasattr(self, 'biography') else '-'}
-        Profile Pic Url: {self.getProfilePicUrlHd}
+        Profile Pic Url: {self.get_profile_picture_url}
         External url: {self.external_url if hasattr(self, 'external_url') else '-'}
-        Number of published posts: {self.mediaCount if hasattr(self, 'mediaCount') else '-'}
+        Number of published posts: {self.media_count if hasattr(self, 'mediaCount') else '-'}
         Number of followers: {self.followed_by_count if hasattr(self, 'followed_by_count') else '-'}
         Number of follows: {self.follows_count if hasattr(self, 'follows_count') else '-'}
         Is private: {self.is_private if hasattr(self, 'is_private') else '-'}
@@ -38,7 +38,7 @@ class Account(InitializerModel):
      * @param Media $media
      * @return Account
      '''
-    def addMedia(self, media):
+    def add_media(self, media):
         try:
             self.medias.append(media)
         except AttributeError:
@@ -46,7 +46,7 @@ class Account(InitializerModel):
 
 
 
-    def _initPropertiesCustom(self, value, prop, array):
+    def _init_properties_custom(self, value, prop, array):
         
         if prop == 'id':
             self.identifier = value
@@ -87,21 +87,21 @@ class Account(InitializerModel):
             self.followed_by_count = array[prop]['count'] if array[prop]['count'] != None  else 0
 
         if prop == 'edge_owner_to_timeline_media':
-            self._initMedia(array[prop])
+            self._init_media(array[prop])
 
 
-    def _initMedia(self, array):
-        self.mediaCount = array['count'] if 'count' in array.keys() else 0 
+    def _init_media(self, array):
+        self.media_count = array['count'] if 'count' in array.keys() else 0 
 
         try:
             nodes = array['edges']
         except:
             return
 
-        if not self.mediaCount or isinstance(nodes, list):
+        if not self.media_count or isinstance(nodes, list):
             return
 
-        for mediaArray in nodes:
-            media = Media(mediaArray['node'])
+        for media_array in nodes:
+            media = Media(media_array['node'])
             if isinstance(media, Media):
-                self.addMedia(media)
+                self.add_media(media)

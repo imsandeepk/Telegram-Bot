@@ -8,12 +8,12 @@ class TwoStepVerificationAbstractClass(ABC):
      Returns: string
      '''
     @abstractmethod
-    def getVerificationType(self, possible_values):
+    def get_verification_type(self, possible_values):
         pass
 
     '''
      Returns: string
      '''
     @abstractmethod
-    def getSecurityCode(self):
+    def get_security_code(self):
         pass

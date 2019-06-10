@@ -16,7 +16,7 @@ class Location(InitializerModel):
 
         return textwrap.dedent(string)
 
-    def _initPropertiesCustom(self, value, prop, arr):
+    def _init_properties_custom(self, value, prop, arr):
 
         if prop == 'id':
             self.identifier = value

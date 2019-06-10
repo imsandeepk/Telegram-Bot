@@ -42,62 +42,62 @@ class Endpoints:
 
     GRAPH_QL_QUERY_URL = 'https://www.instagram.com/graphql/query/?query_id={{queryId}}'
 
-    requestMediaCount = 30
+    request_media_count = 30
 
     @staticmethod
-    def getAccountPageLink(username):
+    def get_account_page_link(username):
         return Endpoints.ACCOUNT_PAGE.replace('{username}', urllib.parse.quote_plus(username))
 
     @staticmethod
-    def getAccountJsonLink(username):
+    def get_account_json_link(username):
         return Endpoints.ACCOUNT_JSON_INFO.replace('{username}', urllib.parse.quote_plus(username))
 
     @staticmethod
-    def getAccountJsonInfoLinkByAccountId(account_id):
+    def get_account_json_info_link_by_account_id(account_id):
         return Endpoints.ACCOUNT_JSON_INFO_BY_ID.replace('{userId}', urllib.parse.quote_plus(account_id))
 
     @staticmethod
-    def getAccountJsonPrivateInfoLinkByAccountId(account_id):
+    def get_account_json_private_info_link_by_account_id(account_id):
         return Endpoints.ACCOUNT_JSON_PRIVATE_INFO_BY_ID.replace('{userId}', urllib.parse.quote_plus(str(account_id)))
 
     @staticmethod
-    def getAccountMediasJsonLink(variables):
+    def get_account_medias_json_link(variables):
         return Endpoints.ACCOUNT_MEDIAS.replace('{variables}', urllib.parse.quote_plus(json.dumps(variables)))
 
     @staticmethod
-    def getMediaPageLink(code):
+    def get_media_page_link(code):
         return Endpoints.MEDIA_LINK.replace('{code}', urllib.parse.quote_plus(code))
 
     @staticmethod
-    def getMediaJsonLink(code):
+    def get_media_json_link(code):
         return Endpoints.MEDIA_JSON_INFO.replace('{code}', urllib.parse.quote_plus(code))
 
     @staticmethod
-    def getMediasJsonByLocationIdLink(facebookLocationId, maxId=''):
+    def get_medias_json_by_location_id_link(facebookLocationId, maxId=''):
         url = Endpoints.MEDIA_JSON_BY_LOCATION_ID.replace(
             '{{facebookLocationId}}', urllib.parse.quote_plus(str(facebookLocationId)))
         return url.replace('{{maxId}}', urllib.parse.quote_plus(maxId))
 
     @staticmethod
-    def getMediasJsonByTagLink(tag, maxId=''):
+    def get_medias_json_by_tag_link(tag, maxId=''):
         url = Endpoints.MEDIA_JSON_BY_TAG.replace(
             '{tag}', urllib.parse.quote_plus(tag))
         return url.replace('{max_id}', urllib.parse.quote_plus(maxId))
 
     @staticmethod
-    def getGeneralSearchJsonLink(query):
+    def get_general_search_json_link(query):
         return Endpoints.GENERAL_SEARCH.replace('{query}', urllib.parse.quote_plus(query))
 
     @staticmethod
-    def getCommentsBeforeCommentIdByCode(variables):
+    def get_comments_before_comments_id_by_code(variables):
         return Endpoints.COMMENTS_BEFORE_COMMENT_ID_BY_CODE.replace('{variables}', urllib.parse.quote_plus(variables))
 
     @staticmethod
-    def getLastLikesByCodeLink(code):
+    def get_last_likes_by_code_link(code):
         return Endpoints.LAST_LIKES_BY_CODE.replace('{{code}}', urllib.parse.quote_plus(code))
 
     @staticmethod
-    def getLastLikesByCode(code, count, lastLikeID):
+    def get_last_likes_by_code(code, count, lastLikeID):
         url = Endpoints.LIKES_BY_SHORTCODE.replace(
             '{{shortcode}}', urllib.parse.quote_plus(code))
         url = url.replace('{{count}}', urllib.parse.quote_plus(str(count)))
@@ -106,11 +106,11 @@ class Endpoints:
         return url
 
     @staticmethod
-    def getFollowUrl(accountId):
+    def get_follow_url(accountId):
         return Endpoints.FOLLOW_URL.replace('{{accountId}}', urllib.parse.quote_plus(accountId))
 
     @staticmethod
-    def getFollowersJsonLink(accountId, count, after=''):
+    def get_followers_json_link(accountId, count, after=''):
         url = Endpoints.FOLLOWERS_URL.replace(
             '{{accountId}}', urllib.parse.quote_plus(accountId))
         url = url.replace('{{count}}', urllib.parse.quote_plus(str(count)))
@@ -123,7 +123,7 @@ class Endpoints:
         return url
 
     @staticmethod
-    def getFollowingJsonLink(accountId, count, after=''):
+    def get_following_json_link(accountId, count, after=''):
         url = Endpoints.FOLLOWING_URL.replace(
             '{{accountId}}', urllib.parse.quote_plus(accountId))
         url = url.replace('{{count}}', urllib.parse.quote_plus(count))
@@ -136,11 +136,11 @@ class Endpoints:
         return url
 
     @staticmethod
-    def getUserStoriesLink():
-        return Endpoints.getGraphQlUrl(InstagramQueryId.USER_STORIES, {'variables': JSONEncoder().encode([])})
+    def get_user_stories_link():
+        return Endpoints.get_graph_ql_url(InstagramQueryId.USER_STORIES, {'variables': JSONEncoder().encode([])})
 
     @staticmethod
-    def getGraphQlUrl(queryId, parameters):
+    def get_graph_ql_url(queryId, parameters):
         url = Endpoints.GRAPH_QL_QUERY_URL.replace(
             '{{queryId}}', urllib.parse.quote_plus(queryId))
         if (len(parameters) > 0):
@@ -150,23 +150,23 @@ class Endpoints:
         return url
 
     @staticmethod
-    def getStoriesLink(variables):
-        return Endpoints.getGraphQlUrl(InstagramQueryId.STORIES, {'variables': JSONEncoder().encode(variables)})
+    def get_stories_link(variables):
+        return Endpoints.get_graph_ql_url(InstagramQueryId.STORIES, {'variables': JSONEncoder().encode(variables)})
 
     @staticmethod
-    def getLikeUrl(mediaId):
+    def get_like_url(mediaId):
         return Endpoints.LIKE_URL.replace('{mediaId}', urllib.parse.quote_plus(mediaId))
 
     @staticmethod
-    def getUnlikeUrl(mediaId):
+    def get_unlike_url(mediaId):
         return Endpoints.UNLIKE_URL.replace('{mediaId}', urllib.parse.quote_plus(mediaId))
 
     @staticmethod
-    def getAddCommentUrl(mediaId):
+    def get_add_comment_url(mediaId):
         return Endpoints.ADD_COMMENT_URL.replace('{mediaId}', mediaId)
 
     @staticmethod
-    def getDeleteCommentUrl(mediaId, commentId):
+    def get_delete_comment_url(mediaId, commentId):
         url = Endpoints.DELETE_COMMENT_URL.replace('{mediaId}', mediaId)
         url = url.replace('{commentId}', commentId)
         return url

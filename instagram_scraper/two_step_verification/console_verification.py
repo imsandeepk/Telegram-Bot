@@ -3,7 +3,7 @@ from .two_step_verification_abstract_class import TwoStepVerificationAbstractCla
 
 class ConsoleVerification(TwoStepVerificationAbstractClass):
 
-    def getVerificationType(self, choices):
+    def get_verification_type(self, choices):
         if (len(choices) > 1):
             possible_values = {}
             print('Select where to send security code')
@@ -29,7 +29,7 @@ class ConsoleVerification(TwoStepVerificationAbstractClass):
     Returns: string
     '''
 
-    def getSecurityCode(self):
+    def get_security_code(self):
         security_code = ''
         while (len(security_code) != 6 and not security_code.isdigit()):
             if (security_code):

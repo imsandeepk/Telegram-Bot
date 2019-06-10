@@ -76,7 +76,6 @@ See examples [here](https://github.com/SergioWagenleitner/instagram-scraper/tree
 
 - get rid of some dependencies
 - remove duplicate code
-- change lowerCamelCase to lower_case
 - get depreciated functions to work again
 
 ## other

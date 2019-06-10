@@ -12,5 +12,5 @@ for media in medias:
     print('Id', account.identifier)
     # print('Username', account.username)
     # print('Full Name', account.full_name)
-    # print('Profile Pic Url', account.getProfilePicUrlHd())
+    # print('Profile Pic Url', account.get_profile_picture_url_hd())
     print('--------------------------------------------------')

@@ -14,7 +14,7 @@ from .exception.instagram_not_found_exception import InstagramNotFoundException
 
 from .model.account import Account
 from .model.comment import Comment
-# import model.Like
+from .model.like import Like
 from .model.location import Location
 from .model.media import Media
 from .model.story import Story

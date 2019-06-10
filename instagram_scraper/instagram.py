@@ -1440,3 +1440,17 @@ class Instagram:
         if json_response['status'] != 'ok':
             status = json_response['status']
             raise InstagramException(f'Response status is {status}. Body: {response.text} Something went wrong. Please report issue.', response.status_code)
+
+    def follow(self, user_id, username=None):
+        """ Send http request to follow """
+        if self.is_logged_in(self.user_session):
+            url = endpoints.get_follow_url(user_id)
+            if username is None:
+                username = self.get_username_by_id(user_id)
+            try:
+                follow = self.__req.post(url_follow, headers=self.generate_headers(self.user_session))
+                if follow.status_code == Instagram.HTTP_OK:
+                    return True
+            except:
+                InstagramException("Except on follow!")
+        return False

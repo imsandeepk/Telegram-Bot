@@ -10,16 +10,21 @@ The goal of this project is to become as minimalistic as possible while still ha
 **Any star or contribution is appreciated if you like to project ~** 🤘
 
 ## install
-Download the project via git clone and run the following:
+Simply run:
+```
+pip install igramscraper
+```
+
+or download the project via git clone and run the following:
 ```
 pip install -r require.txt
 ```
-(PyPi coming soon)
 
 ## usages
 Some methods do require authentication:
 ```python
-from instagram_scraper.instagram import Instagram
+
+from igramscraper.instagram import Instagram
 
 instagram = Instagram()
 
@@ -55,7 +60,7 @@ for more info browse through the examples folder
 
 Using proxy for requests:
 ```python
-from instagram_scraper.instagram import Instagram
+from igramscraper.instagram import Instagram 
 
 proxies = {
     'http': 'http://123.45.67.8:1087',

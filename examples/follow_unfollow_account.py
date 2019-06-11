@@ -4,4 +4,4 @@ instagram = Instagram.with_credentials('', '', 'pathtocache')
 instagram.login()
 
 instagram.follow('user_id')
-#instagram.unfollow('')
+instagram.unfollow('user_id')

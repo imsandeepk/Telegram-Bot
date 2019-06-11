@@ -1452,5 +1452,17 @@ class Instagram:
                 if follow.status_code == Instagram.HTTP_OK:
                     return True
             except:
-                InstagramException("Except on follow!")
+                raise InstagramException("Except on follow!")
+        return False
+
+    def unfollow(self, user_id, username=""):
+        """ Send http request to unfollow """
+        if self.is_logged_in(self.user_session):
+            url_unfollow = endpoints.get_unfollow_url(user_id)
+            try:
+                unfollow = self.s.post(url_unfollow)
+                if unfollow.status_code == Instagram.HTTP_OK:
+                    return unfollow
+            except:
+                raise InstagramException("Exept on unfollow!")
         return False

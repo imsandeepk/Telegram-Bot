@@ -93,6 +93,9 @@ def get_last_likes_by_code(code, count, lastLikeID):
 def get_follow_url(accountId):
     return FOLLOW_URL.replace('{{accountId}}', urllib.parse.quote_plus(accountId))
 
+def get_unfollow_url(accountId):
+    return UNFOLLOW_URL.replace('{{accountId}}', urllib.parse.quote_plus(accountId))
+
 def get_followers_json_link(accountId, count, after=''):
     url = FOLLOWERS_URL.replace(
         '{{accountId}}', urllib.parse.quote_plus(accountId))

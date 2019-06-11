@@ -49,7 +49,7 @@ print('Is verified', account.is_verified)
 # or simply for printing use 
 print(account)
 ```
-If you use authentication the program will cache the user session by default so one doen't need to create session everytime.  
+If you use authentication the program will cache the user session by default so one doesn't need to create session everytime.  
 If one want to disable the user session cache, assign `True` to Instagram.login() method
 
 Two Factor Authentification is also supported through cli interface, simply use 'True' for second argument of login() function 

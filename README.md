@@ -72,11 +72,5 @@ print(account.identifier)
 ## more usages
 See examples [here](https://github.com/SergioWagenleitner/instagram-scraper/tree/master/examples).
 
-## next steps:
-
-- get rid of some dependencies
-- remove duplicate code
-- get depreciated functions to work again
-
 ## other
 instagram-php-scraper [here](https://github.com/postaddictme/instagram-php-scraper/tree/master/examples).

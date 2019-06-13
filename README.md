@@ -1,8 +1,8 @@
-# instagram_scaper
+# instagram_scraper
 <img src="https://raw.githubusercontent.com/realsirjoe/designs/master/flat_illustration.png" align="right">
 This is a minimalistic Instagram scraper written in Python.
 
-It can fetch medias, accounts, videos, comments etc.
+It can fetch media, accounts, videos, comments etc.
 `Comment` and `Like` actions are also supported.
 
 It is not easy to get Applications approved for Instagram's API therefore I created this tool inspired by [instagram-php-scraper](https://github.com/postaddictme/instagram-php-scraper).
@@ -51,10 +51,10 @@ print('Is verified', account.is_verified)
 # or simply for printing use 
 print(account)
 ```
-If you use authentication the program will cache the user session by default so one doesn't need to create session everytime.  
+If you use authentication, the program will cache the user session by default so one doesn't need to create session every time.  
 If one want to disable the user session cache, assign `True` to Instagram.login() method
 
-Two Factor Authentification is also supported through cli interface, simply use 'True' for second argument of login() function 
+Two Factor Authentication is also supported through cli interface, simply use 'True' for second argument of login() function 
   
 Many of the methods do not require authentication
 

@@ -21,7 +21,7 @@ class TestIgramscraper(unittest.TestCase):
             self.instagram.login()
         
         if user_agent != None:
-            #set user agent
+            #TODO set user agent
             pass
 
     @classmethod
@@ -37,6 +37,12 @@ class TestIgramscraper(unittest.TestCase):
         account = self.instagram.get_account_by_id(3)
         self.assertEqual('kevin', account.username)
         self.assertEqual('3', account.identifier)
+    
+    def test_get_medias(self):
+        medias = self.instagram.get_medias('kevin', 80)
+        self.assertEqual(80, len(medias))
+    
+
 
 
 

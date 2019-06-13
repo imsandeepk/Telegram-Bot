@@ -1,6 +1,7 @@
 from .media import Media
 import textwrap
 
+
 class Story(Media):
 
     skip_prop = [

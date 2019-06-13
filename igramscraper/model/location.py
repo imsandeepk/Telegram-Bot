@@ -1,7 +1,13 @@
 from .initializer_model import InitializerModel
 import textwrap
 
+
 class Location(InitializerModel):
+    name: str
+    lat: float
+    lng: float
+    slug: str
+    has_public_page: str
 
     def __str__(self):
         string = f'''

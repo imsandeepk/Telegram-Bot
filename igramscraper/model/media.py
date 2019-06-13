@@ -3,6 +3,7 @@ import textwrap
 
 from .initializer_model import InitializerModel
 from ..endpoints import endpoints
+from .carousel_media import CarouselMedia
 from .comment import Comment
 # there is one more import when Media.owner is set
 
@@ -220,7 +221,7 @@ class Media(InitializerModel):
      
     @staticmethod
     def set_carousel_media(media_array, carousel_array):
-        print(carouselArray)
+        print(carousel_array)
         #TODO implement
         '''
         param mediaArray
@@ -229,7 +230,7 @@ class Media(InitializerModel):
         return mixed
         '''
         carousel_media = CarouselMedia()
-        carousel_media.type(carouselArray['type'])
+        carousel_media.type(carousel_array['type'])
 
         try:
             images = carousel_array['images']

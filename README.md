@@ -1,13 +1,15 @@
 # instagram_scraper
 <img src="https://raw.githubusercontent.com/realsirjoe/designs/master/flat_illustration.png" align="right">
-A minimalistic instagram scraper wrote in python. 
-fetch media, accounts, videos, comments and more. 
-Comment and Like action also supported.
-It is very hard to get Applications approved for Instagrams API therefore I created this tool inspired by instagram-php-scraper. 
-<br /><br />
-The goal of this project is to become as minimalistic as possible while still having all needed functionalities so that it's easy to add code to it!
+This is a minimalistic Instagram scraper written in Python.
 
-**Any star or contribution is appreciated if you like to project ~** 🤘
+It can fetch media, accounts, videos, comments etc.
+`Comment` and `Like` actions are also supported.
+
+It is not easy to get Applications approved for Instagram's API therefore I created this tool inspired by [instagram-php-scraper](https://github.com/postaddictme/instagram-php-scraper).
+<br /><br />
+The goal of this project is to become as minimalistic as possible while still having all the needed functionality so that its easy to add code to it!
+
+**Any star or contribution is appreciated if you like the project ~** 🤘
 
 ## install
 Simply run:

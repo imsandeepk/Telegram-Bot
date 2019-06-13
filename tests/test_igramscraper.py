@@ -41,9 +41,23 @@ class TestIgramscraper(unittest.TestCase):
     def test_get_medias(self):
         medias = self.instagram.get_medias('kevin', 80)
         self.assertEqual(80, len(medias))
+
+    def test_get_hundred_medias(self):
+        medias = self.instagram.get_medias('kevin', 100)
+        self.assertEqual(100, len(medias))
+
+    def test_get_medias_by_tag(self):
+        medias = self.instagram.get_medias_by_tag('youneverknow', 20)
+        self.assertEqual(20, len(medias))
+
+    def test_get_medias_by_code(self):
+        media = self.instagram.get_medias_by_code('BHaRdodBouH')
+        self.assertEqual('kevin', media.owner.username)
+
+    def test_get_media_by_url(self):
+        media = self.instagram.get_media_by_url('https://www.instagram.com/p/BHaRdodBouH')
+        self.assertEqual('kevin', media.owner.username)
     
-
-
 
 
 if __name__ == '__main__':

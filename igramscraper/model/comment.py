@@ -1,12 +1,13 @@
 from .initializer_model import InitializerModel
 import textwrap
 
-class Comment(InitializerModel):
 
-    '''
+class Comment(InitializerModel):
+    """
      * @param $value
      * @param $prop
-     '''
+     """
+
     def init_properties_custom(self, value, prop):
         if prop == 'id':
            self.identifier = value

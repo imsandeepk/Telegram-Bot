@@ -2,6 +2,7 @@ from .initializer_model import InitializerModel
 from .media import Media
 import textwrap
 
+
 class Account(InitializerModel):
 
     def __init__(self, props = None):
@@ -9,7 +10,7 @@ class Account(InitializerModel):
 
     def get_profile_picture_url(self):
         try:
-            if (self.profile_pic_url_hd != ''):
+            if not self.profile_pic_url_hd == '':
                 return self.profile_pic_url_hd
         except AttributeError:
             try:
@@ -43,8 +44,6 @@ class Account(InitializerModel):
             self.medias.append(media)
         except AttributeError:
             raise AttributeError
-
-
 
     def _init_properties_custom(self, value, prop, array):
         
@@ -81,14 +80,15 @@ class Account(InitializerModel):
             self.__setattr__(prop, value)   
         
         if prop == 'edge_follow':
-            self.follows_count = array[prop]['count'] if array[prop]['count'] != None  else 0
+            self.follows_count = array[prop]['count'] \
+                if array[prop]['count'] is not None  else 0
 
         if prop == 'edge_followed_by':
-            self.followed_by_count = array[prop]['count'] if array[prop]['count'] != None  else 0
+            self.followed_by_count = array[prop]['count'] \
+                if array[prop]['count'] is not None else 0
 
         if prop == 'edge_owner_to_timeline_media':
             self._init_media(array[prop])
-
 
     def _init_media(self, array):
         self.media_count = array['count'] if 'count' in array.keys() else 0 

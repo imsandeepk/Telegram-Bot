@@ -1,10 +1,10 @@
 import os
 
-class CookieSessionManager:
-    def __init__(self, sessionFolder, filename):
-        self.session_folder = sessionFolder
-        self.filename = filename
 
+class CookieSessionManager:
+    def __init__(self, session_folder, filename):
+        self.session_folder = session_folder
+        self.filename = filename
 
     def get_saved_cookies(self):
         try:
@@ -17,9 +17,8 @@ class CookieSessionManager:
         if not os.path.exists(self.session_folder):
             os.makedirs(self.session_folder)
 
-        f = open(self.session_folder + self.filename,"w+")
-        f.write(cookie_string)
-        f.close
+        with open(self.session_folder + self.filename,"w+") as f:
+            f.write(cookie_string)
 
     def empty_saved_cookies(self):
         try:

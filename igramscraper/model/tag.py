@@ -1,5 +1,6 @@
 from .initializer_model import InitializerModel
 
+
 class Tag(InitializerModel):
 
     def _init_properties_custom(self, value, prop, arr):

@@ -42,45 +42,58 @@ GRAPH_QL_QUERY_URL = 'https://www.instagram.com/graphql/query/?query_id={{queryI
 
 request_media_count = 30
 
+
 def get_account_page_link(username):
     return ACCOUNT_PAGE.replace('{username}', urllib.parse.quote_plus(username))
+
 
 def get_account_json_link(username):
     return ACCOUNT_JSON_INFO.replace('{username}', urllib.parse.quote_plus(username))
 
+
 def get_account_json_info_link_by_account_id(account_id):
     return ACCOUNT_JSON_INFO_BY_ID.replace('{userId}', urllib.parse.quote_plus(account_id))
+
 
 def get_account_json_private_info_link_by_account_id(account_id):
     return ACCOUNT_JSON_PRIVATE_INFO_BY_ID.replace('{userId}', urllib.parse.quote_plus(str(account_id)))
 
+
 def get_account_medias_json_link(variables):
     return ACCOUNT_MEDIAS.replace('{variables}', urllib.parse.quote_plus(json.dumps(variables)))
+
 
 def get_media_page_link(code):
     return MEDIA_LINK.replace('{code}', urllib.parse.quote_plus(code))
 
+
 def get_media_json_link(code):
     return MEDIA_JSON_INFO.replace('{code}', urllib.parse.quote_plus(code))
+
 
 def get_medias_json_by_location_id_link(facebookLocationId, maxId=''):
     url = MEDIA_JSON_BY_LOCATION_ID.replace(
         '{{facebookLocationId}}', urllib.parse.quote_plus(str(facebookLocationId)))
     return url.replace('{{maxId}}', urllib.parse.quote_plus(maxId))
 
+
 def get_medias_json_by_tag_link(tag, maxId=''):
     url = MEDIA_JSON_BY_TAG.replace(
         '{tag}', urllib.parse.quote_plus(tag))
     return url.replace('{max_id}', urllib.parse.quote_plus(maxId))
 
+
 def get_general_search_json_link(query):
     return GENERAL_SEARCH.replace('{query}', urllib.parse.quote_plus(query))
+
 
 def get_comments_before_comments_id_by_code(variables):
     return COMMENTS_BEFORE_COMMENT_ID_BY_CODE.replace('{variables}', urllib.parse.quote_plus(variables))
 
+
 def get_last_likes_by_code_link(code):
     return LAST_LIKES_BY_CODE.replace('{{code}}', urllib.parse.quote_plus(code))
+
 
 def get_last_likes_by_code(code, count, lastLikeID):
     url = LIKES_BY_SHORTCODE.replace(
@@ -90,11 +103,14 @@ def get_last_likes_by_code(code, count, lastLikeID):
 
     return url
 
+
 def get_follow_url(accountId):
     return FOLLOW_URL.replace('{{accountId}}', urllib.parse.quote_plus(accountId))
 
+
 def get_unfollow_url(accountId):
     return UNFOLLOW_URL.replace('{{accountId}}', urllib.parse.quote_plus(accountId))
+
 
 def get_followers_json_link(accountId, count, after=''):
     url = FOLLOWERS_URL.replace(
@@ -108,6 +124,7 @@ def get_followers_json_link(accountId, count, after=''):
 
     return url
 
+
 def get_following_json_link(accountId, count, after=''):
     url = FOLLOWING_URL.replace(
         '{{accountId}}', urllib.parse.quote_plus(accountId))
@@ -120,8 +137,10 @@ def get_following_json_link(accountId, count, after=''):
 
     return url
 
+
 def get_user_stories_link():
     return get_graph_ql_url(InstagramQueryId.USER_STORIES, {'variables': JSONEncoder().encode([])})
+
 
 def get_graph_ql_url(queryId, parameters):
     url = GRAPH_QL_QUERY_URL.replace(
@@ -132,14 +151,18 @@ def get_graph_ql_url(queryId, parameters):
 
     return url
 
+
 def get_stories_link(variables):
     return get_graph_ql_url(InstagramQueryId.STORIES, {'variables': JSONEncoder().encode(variables)})
+
 
 def get_like_url(mediaId):
     return LIKE_URL.replace('{mediaId}', urllib.parse.quote_plus(mediaId))
 
+
 def get_unlike_url(mediaId):
     return UNLIKE_URL.replace('{mediaId}', urllib.parse.quote_plus(mediaId))
+
 
 def get_add_comment_url(mediaId):
     return ADD_COMMENT_URL.replace('{mediaId}', mediaId)

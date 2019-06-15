@@ -4,11 +4,12 @@ import textwrap
 from .initializer_model import InitializerModel
 from ..endpoints import endpoints
 from .comment import Comment
+
+
 # there is one more import when Media.owner is set
 
 
 class Media(InitializerModel):
-    
     TYPE_IMAGE = 'image'
     TYPE_VIDEO = 'video'
     TYPE_SIDECAR = 'sidecar'
@@ -18,13 +19,12 @@ class Media(InitializerModel):
     def get_id_from_code(code):
         alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'
         id = 0
-        
-        for i in range(len(code)):
-           c = code[i]
-           id = id * 64 + alphabet.index(c) 
- 
-        return id
 
+        for i in range(len(code)):
+            c = code[i]
+            id = id * 64 + alphabet.index(c)
+
+        return id
 
     @staticmethod
     def get_link_from_id(id):
@@ -48,26 +48,27 @@ class Media(InitializerModel):
         return code
 
     def __str__(self):
-        string=f'''
+        string = f'''
         Media Info:
         'Id: {self.identifier}
         Shortcode: {self.short_code}
         Created at: {self.created_time}
         Caption: {self.caption}
-        Number of comments: {self.comments_count if hasattr(self, 'commentsCount') else 0}
+        Number of comments: {self.comments_count if hasattr(self,
+                                                            'commentsCount') else 0}
         Number of likes: {self.likes_count}
         Link: {self.link}
         Hig res image: {self.image_high_resolution_url}
         Media type: {self.type}
         '''
-        
+
         return textwrap.dedent(string)
 
     def _init_properties_custom(self, value, prop, arr):
 
         if prop == 'id':
             self.identifier = value
-        
+
         standart_properties = [
             'type',
             'link',
@@ -104,10 +105,10 @@ class Media(InitializerModel):
                     self.image_low_resolution_url = media['src']
                 elif media['config_width'] == 1080:
                     self.image_standard_resolution_url = media['src']
-        
+
         elif prop == 'display_src' or prop == 'display_url':
             self.image_high_resolution_url = value
-            if self.type == None:
+            if self.type is None:
                 self.type = Media.TYPE_IMAGE
 
         elif prop == 'thumbnail_resources':
@@ -115,7 +116,7 @@ class Media(InitializerModel):
             for square_image in value:
                 square_images_url.append(square_image['src'])
             self.square_images = square_images_url
-        
+
         elif prop == 'carousel_media':
             self.type = Media.TYPE_CAROUSEL
             self.carousel_media = []
@@ -129,9 +130,10 @@ class Media(InitializerModel):
             self.type = Media.TYPE_VIDEO
 
         elif prop == 'videos':
-                self.video_low_resolution_url = arr[prop]['low_resolution']['url']
-                self.video_standard_resolution_url = arr[prop]['standard_resolution']['url']
-                self.video_low_bandwith_url = arr[prop]['low_bandwidth']['url']
+            self.video_low_resolution_url = arr[prop]['low_resolution']['url']
+            self.video_standard_resolution_url = \
+            arr[prop]['standard_resolution']['url']
+            self.video_low_bandwith_url = arr[prop]['low_bandwidth']['url']
 
         elif prop == 'video_resources':
             for video in value:
@@ -141,15 +143,15 @@ class Media(InitializerModel):
                     self.video_low_resolution_url = video['src']
                     self.video_low_bandwith_url = video['src']
 
-        elif prop == 'location' and value != None:
+        elif prop == 'location' and value is not None:
             self.location_id = arr[prop]['id']
             self.location_name = arr[prop]['name']
             self.location_slug = arr[prop]['slug']
-        
+
         elif prop == 'user' or prop == 'owner':
             from .account import Account
             self.owner = Account(arr[prop])
-        
+
         elif prop == 'is_video':
             if bool(value):
                 self.type = Media.TYPE_VIDEO
@@ -174,11 +176,13 @@ class Media(InitializerModel):
             except KeyError:
                 pass
             try:
-                self.has_more_comments = bool(arr[prop]['page_info']['has_next_page'])
+                self.has_more_comments = bool(
+                    arr[prop]['page_info']['has_next_page'])
             except KeyError:
                 pass
             try:
-                self.comments_next_page = str(arr[prop]['page_info']['end_cursor'])
+                self.comments_next_page = str(
+                    arr[prop]['page_info']['end_cursor'])
             except KeyError:
                 pass
 
@@ -192,7 +196,7 @@ class Media(InitializerModel):
                 self.caption = arr[prop]['edges'][0]['node']['text']
             except (KeyError, IndexError):
                 pass
-            
+
         elif prop == 'edge_sidecar_to_children':
             pass
             # #TODO implement
@@ -217,11 +221,10 @@ class Media(InitializerModel):
         # if self.ownerId and self.owner != None:
         #     self.ownerId = self.getOwner().getId()
 
-     
     @staticmethod
     def set_carousel_media(media_array, carousel_array):
         print(carouselArray)
-        #TODO implement
+        # TODO implement
         '''
         param mediaArray
         param carouselArray
@@ -235,24 +238,28 @@ class Media(InitializerModel):
             images = carousel_array['images']
         except KeyError:
             pass
-        
-        carousel_images = Media.__get_image_urls(carousel_array['images']['standard_resolution']['url'])
+
+        carousel_images = Media.__get_image_urls(
+            carousel_array['images']['standard_resolution']['url'])
         carousel_media.imageLowResolutionUrl = carousel_images['low']
         carousel_media.imageThumbnailUrl = carousel_images['thumbnail']
         carousel_media.imageStandardResolutionUrl = carousel_images['standard']
         carousel_media.imageHighResolutionUrl = carousel_images['high']
-            
-        if carousel_media.type == Media.TYPE_VIDEO: 
+
+        if carousel_media.type == Media.TYPE_VIDEO:
             try:
                 carousel_media.video_views = carousel_array['video_views']
             except KeyError:
                 pass
 
             if 'videos' in carousel_array.keys():
-                carousel_media.videoLowResolutionUrl(carousel_array['videos']['low_resolution']['url'])
-                carousel_media.videoStandardResolutionUrl(carousel_array['videos']['standard_resolution']['url'])
-                carousel_media.videoLowBandwidthUrl(carousel_array['videos']['low_bandwidth']['url'])
-        
+                carousel_media.videoLowResolutionUrl(
+                    carousel_array['videos']['low_resolution']['url'])
+                carousel_media.videoStandardResolutionUrl(
+                    carousel_array['videos']['standard_resolution']['url'])
+                carousel_media.videoLowBandwidthUrl(
+                    carousel_array['videos']['low_bandwidth']['url'])
+
         media_array.append(carousel_media)
         # array_push($instance->carouselMedia, $carouselMedia);
         return media_array
@@ -262,9 +269,9 @@ class Media(InitializerModel):
         parts = '/'.split(urllib.parse(image_url)['path'])
         imageName = parts[len(parts) - 1]
         urls = {
-            'thumbnail' : endpoints.INSTAGRAM_CDN_URL + 't/s150x150/' + imageName,
-            'low' : endpoints.INSTAGRAM_CDN_URL + 't/s320x320/' + imageName,
-            'standard' : endpoints.INSTAGRAM_CDN_URL + 't/s640x640/' + imageName,
-            'high' : endpoints.INSTAGRAM_CDN_URL + 't/' + imageName,
+            'thumbnail': endpoints.INSTAGRAM_CDN_URL + 't/s150x150/' + imageName,
+            'low': endpoints.INSTAGRAM_CDN_URL + 't/s320x320/' + imageName,
+            'standard': endpoints.INSTAGRAM_CDN_URL + 't/s640x640/' + imageName,
+            'high': endpoints.INSTAGRAM_CDN_URL + 't/' + imageName,
         }
         return urls

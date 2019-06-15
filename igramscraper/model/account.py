@@ -95,7 +95,7 @@ class Account(InitializerModel):
 
         try:
             nodes = array['edges']
-        except TypeError:
+        except:
             return
 
         if not self.media_count or isinstance(nodes, list):

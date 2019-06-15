@@ -8,6 +8,15 @@ class Comment(InitializerModel):
      * @param $prop
      """
 
+    def __init__(self, props=None):
+        self.identifier = None
+        self.text = None
+        self.created_at = None
+        # Account object
+        self.owner = None
+
+        super(Comment, self).__init__(props)
+
     def init_properties_custom(self, value, prop):
         if prop == 'id':
            self.identifier = value

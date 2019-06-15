@@ -3,6 +3,12 @@ from .initializer_model import InitializerModel
 
 class Tag(InitializerModel):
 
+    def __init__(self, props=None):
+        self._media_count = 0
+        self._name = None
+        self._id = None
+        super(Tag, self).__init__(props)
+
     def _init_properties_custom(self, value, prop, arr):
 
         if prop == 'id':

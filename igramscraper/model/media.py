@@ -16,6 +16,38 @@ class Media(InitializerModel):
     TYPE_SIDECAR = 'sidecar'
     TYPE_CAROUSEL = 'carousel'
 
+    def __init__(self, props=None):
+        self.identifier = None
+        self.short_code = None
+        self.created_time = 0
+        self.type = None
+        self.link = None
+        self.image_low_resolution_url = None
+        self.image_thumbnail_url = None
+        self.image_standard_resolution_url = None
+        self.image_high_resolution_url = None
+        self.square_images = []
+        self.carousel_media = []
+        self.caption = None
+        self.is_ad = False
+        self.video_low_resolution_url = None
+        self.video_standard_resolution_url = None
+        self.video_low_bandwidth_url = None
+        self.video_views = 0
+        self.video_url = None
+        # account object
+        self.owner = None
+        self.likes_count = 0
+        self.location_id = None
+        self.location_name = None
+        self.comments_count = 0
+        self.comments = []
+        self.has_more_comments = False
+        self.comments_next_page = None
+        self.location_slug = None
+
+        super(Media, self).__init__(props)
+
     @staticmethod
     def get_id_from_code(code):
         alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'
@@ -227,45 +259,45 @@ class Media(InitializerModel):
 
         print(carousel_array)
         # TODO implement
-
+        pass
         '''
         param mediaArray
         param carouselArray
         param instance
         return mixed
         '''
-        carousel_media = CarouselMedia()
-        carousel_media.type(carousel_array['type'])
+        # carousel_media = CarouselMedia()
+        # carousel_media.type(carousel_array['type'])
 
-        try:
-            images = carousel_array['images']
-        except KeyError:
-            pass
+        # try:
+        #     images = carousel_array['images']
+        # except KeyError:
+        #     pass
 
-        carousel_images = Media.__get_image_urls(
-            carousel_array['images']['standard_resolution']['url'])
-        carousel_media.imageLowResolutionUrl = carousel_images['low']
-        carousel_media.imageThumbnailUrl = carousel_images['thumbnail']
-        carousel_media.imageStandardResolutionUrl = carousel_images['standard']
-        carousel_media.imageHighResolutionUrl = carousel_images['high']
+        # carousel_images = Media.__get_image_urls(
+        #     carousel_array['images']['standard_resolution']['url'])
+        # carousel_media.imageLowResolutionUrl = carousel_images['low']
+        # carousel_media.imageThumbnailUrl = carousel_images['thumbnail']
+        # carousel_media.imageStandardResolutionUrl = carousel_images['standard']
+        # carousel_media.imageHighResolutionUrl = carousel_images['high']
 
-        if carousel_media.type == Media.TYPE_VIDEO:
-            try:
-                carousel_media.video_views = carousel_array['video_views']
-            except KeyError:
-                pass
+        # if carousel_media.type == Media.TYPE_VIDEO:
+        #     try:
+        #         carousel_media.video_views = carousel_array['video_views']
+        #     except KeyError:
+        #         pass
 
-            if 'videos' in carousel_array.keys():
-                carousel_media.videoLowResolutionUrl(
-                    carousel_array['videos']['low_resolution']['url'])
-                carousel_media.videoStandardResolutionUrl(
-                    carousel_array['videos']['standard_resolution']['url'])
-                carousel_media.videoLowBandwidthUrl(
-                    carousel_array['videos']['low_bandwidth']['url'])
+        #     if 'videos' in carousel_array.keys():
+        #         carousel_media.videoLowResolutionUrl(
+        #             carousel_array['videos']['low_resolution']['url'])
+        #         carousel_media.videoStandardResolutionUrl(
+        #             carousel_array['videos']['standard_resolution']['url'])
+        #         carousel_media.videoLowBandwidthUrl(
+        #             carousel_array['videos']['low_bandwidth']['url'])
 
-        media_array.append(carousel_media)
-        # array_push($instance->carouselMedia, $carouselMedia);
-        return media_array
+        # media_array.append(carousel_media)
+        # # array_push($instance->carouselMedia, $carouselMedia);
+        # return media_array
 
     @staticmethod
     def __getImageUrls(image_url):

@@ -3,11 +3,16 @@ import textwrap
 
 
 class Location(InitializerModel):
-    name: str
-    lat: float
-    lng: float
-    slug: str
-    has_public_page: str
+
+    def __init__(self, props=None):
+        self.identifier = None
+        self.has_public_page = None
+        self.name = None
+        self.slug = None
+        self.lat = None
+        self.lng = None
+        self.modified = None
+        super(Location, self).__init__(props)
 
     def __str__(self):
         string = f'''

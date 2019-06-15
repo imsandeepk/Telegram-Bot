@@ -18,7 +18,7 @@ class ConsoleVerification(TwoStepVerificationAbstractClass):
                 if (selected_choice):
                     print('Wrong choice. Try again')
 
-                selected_choice = input('Your choice: ').replace(" ", "")
+                selected_choice = input('Your choice: ').strip()
         else:
             print('Message with security code sent to: ' + choices[0]['label'])
             selected_choice = choices[0]['value']
@@ -35,6 +35,6 @@ class ConsoleVerification(TwoStepVerificationAbstractClass):
             if (security_code):
                 print('Wrong security code')
 
-            security_code = input('Enter security code: ').replace(" ", "")
+            security_code = input('Enter security code: ').strip()
 
         return security_code

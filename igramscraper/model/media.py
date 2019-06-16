@@ -301,7 +301,7 @@ class Media(InitializerModel):
 
     @staticmethod
     def __getImageUrls(image_url):
-        parts = '/'.split(urllib.parse(image_url)['path'])
+        parts = '/'.split(urllib.parse.quote_plus(image_url)['path'])
         imageName = parts[len(parts) - 1]
         urls = {
             'thumbnail': endpoints.INSTAGRAM_CDN_URL + 't/s150x150/' + imageName,

@@ -3,6 +3,7 @@ import textwrap
 
 from .initializer_model import InitializerModel
 from igramscraper import endpoints
+from .carousel_media import CarouselMedia
 from .comment import Comment
 
 

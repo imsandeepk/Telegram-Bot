@@ -21,6 +21,7 @@ FOLLOWING_URL = 'https://www.instagram.com/graphql/query/?query_id=1787454532300
 FOLLOWERS_URL = 'https://www.instagram.com/graphql/query/?query_id=17851374694183129&id={{accountId}}&first={{count}}&after={{after}}'
 FOLLOW_URL = 'https://www.instagram.com/web/friendships/%s/follow/'
 UNFOLLOW_URL = 'https://www.instagram.com/web/friendships/%s/unfollow/'
+INSTAGRAM_CDN_URL = 'https://scontent.cdninstagram.com/'
 ACCOUNT_JSON_PRIVATE_INFO_BY_ID = 'https://i.instagram.com/api/v1/users/%s/info/'
 LIKE_URL = 'https://www.instagram.com/web/likes/%s/like/'
 UNLIKE_URL = 'https://www.instagram.com/web/likes/%s/unlike/'

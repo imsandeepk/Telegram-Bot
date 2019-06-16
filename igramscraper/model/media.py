@@ -2,8 +2,7 @@ import urllib.parse
 import textwrap
 
 from .initializer_model import InitializerModel
-from ..endpoints import endpoints
-from .carousel_media import CarouselMedia
+from igramscraper import endpoints
 from .comment import Comment
 
 

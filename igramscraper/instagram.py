@@ -21,7 +21,7 @@ from .model.story import Story
 from .model.user_stories import UserStories
 from .model.tag import Tag
 
-from .endpoints import endpoints
+from igramscraper import endpoints
 
 from .two_step_verification.console_verification import ConsoleVerification
 

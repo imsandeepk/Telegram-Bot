@@ -165,7 +165,7 @@ class Instagram:
         throws InstagramException
         """
         rhx_gis = self.__get_rhx_gis() if self.__get_rhx_gis() != None else 'NULL'
-        string_to_hash = ':'.join([rhx_gis, json.dumps(variables)])
+        string_to_hash = ':'.join([rhx_gis, json.dumps(variables, separators=(',', ':'))])
         return hashlib.md5(string_to_hash.encode('utf-8')).hexdigest()
 
     def __get_rhx_gis(self):
@@ -651,7 +651,7 @@ class Instagram:
             'id': str(account.identifier),
             'first': str(endpoints.request_media_count),
             'after': str(max_id)
-        })
+        }, separators=(',', ':'))
 
         time.sleep(self.sleep_between_requests)
         response = self.__req.get(
@@ -1037,7 +1037,7 @@ class Instagram:
                 'shortcode': str(code),
                 'first': str(number_of_comments_to_receive),
                 'after': str(max_id)
-            })
+            }, separators=(',', ':'))
 
             comments_url = endpoints.get_comments_before_comments_id_by_code(
                 variables)
@@ -1368,7 +1368,7 @@ class Instagram:
             cookies = response.cookies.get_dict()
 
             cookies['mid'] = mid
-            Instagram.instance_cache.set_saved_cookies(json.dumps(cookies))
+            Instagram.instance_cache.set_saved_cookies(json.dumps(cookies, separators=(',', ':')))
 
             self.user_session = cookies
 

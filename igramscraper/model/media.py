@@ -153,7 +153,7 @@ class Media(InitializerModel):
         elif prop == 'carousel_media':
             self.type = Media.TYPE_CAROUSEL
             self.carousel_media = []
-            print(arr["carousel_media"])
+            # print(arr["carousel_media"])
             exit()
             for carousel_array in arr["carousel_media"]:
                 self.set_carousel_media(arr, carousel_array)

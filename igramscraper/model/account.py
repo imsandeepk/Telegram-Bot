@@ -49,7 +49,7 @@ class Account(InitializerModel):
                 return ''
 
     def __str__(self):
-        string = f'''
+        string = f"""
         Account info:
         Id: {self.identifier}
         Username: {self.username if hasattr(self, 'username') else '-'}
@@ -62,13 +62,13 @@ class Account(InitializerModel):
         Number of follows: {self.follows_count if hasattr(self, 'follows_count') else '-'}
         Is private: {self.is_private if hasattr(self, 'is_private') else '-'}
         Is verified: {self.is_verified if hasattr(self, 'is_verified') else '-'}
-        '''
+        """
         return textwrap.dedent(string)
 
-    '''
+    """
      * @param Media $media
      * @return Account
-     '''
+    """
     def add_media(self, media):
         try:
             self.medias.append(media)

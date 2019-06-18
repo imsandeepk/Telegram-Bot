@@ -511,8 +511,6 @@ class Instagram:
             has_next_page = \
                 arr['graphql']['hashtag']['edge_hashtag_to_media']['page_info'][
                     'has_next_page']
-            print('maxId:', max_id)
-            print('hasNextPage:', has_next_page)
 
         return medias
 
@@ -565,7 +563,6 @@ class Instagram:
                 arr['graphql']['location']['edge_location_to_media'][
                     'page_info'][
                     'end_cursor']
-            print(has_next_page, end_cursor)
 
         return medias
 
@@ -624,7 +621,7 @@ class Instagram:
                                              response.status_code)
 
         json_response = response.json()
-        # print(response.json())
+
         nodes = \
             json_response['graphql']['location']['edge_location_to_top_posts'][
                 'edges']
@@ -872,7 +869,6 @@ class Instagram:
 
         while True:
             next_page = None
-            print(self.is_logged_in(self.user_session))
             time.sleep(self.sleep_between_requests)
             response = self.__req.get(
                 endpoints.get_followers_json_link(account_id, page_size,

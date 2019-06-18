@@ -1,29 +1,15 @@
 import time
-
 import requests
 import re
 import json
 import hashlib
 import os
 from slugify import slugify
-
-from .session_manager import CookieSessionManager
-
-from .exception.instagram_auth_exception import InstagramAuthException
-from .exception.instagram_exception import InstagramException
-from .exception.instagram_not_found_exception import InstagramNotFoundException
-
-from .model.account import Account
-from .model.comment import Comment
-from .model.location import Location
-from .model.media import Media
-from .model.story import Story
-from .model.user_stories import UserStories
-from .model.tag import Tag
-
+from igramscraper.model import *
+from igramscraper.exception import *
+from igramscraper.two_step_verification import *
 from igramscraper import endpoints
-
-from .two_step_verification.console_verification import ConsoleVerification
+from igramscraper.session_manager import CookieSessionManager
 
 
 class Instagram:
@@ -272,9 +258,7 @@ class Instagram:
                     'Response code is not equal 200. '
                     'Something went wrong. Please report issue.')
         except KeyError:
-            raise InstagramException(
-                'Response code is not equal 200.'
-                ' Something went wrong. Please report issue.')
+            raise InstagramException('Response code is not equal 200. Something went wrong. Please report issue.')
 
         try:
             hashtags_raw = json_response['hashtags']
@@ -1617,7 +1601,7 @@ class Instagram:
             if username is None:
                 username = self.get_username_by_id(user_id)
             try:
-                follow = self.__req.post(url_follow,
+                follow = self.__req.post(url,
                                          headers=self.generate_headers(
                                              self.user_session))
                 if follow.status_code == Instagram.HTTP_OK:

@@ -19,7 +19,7 @@ pip install igramscraper
 
 or download the project via git clone and run the following:
 ```
-pip install -r require.txt
+pip install -r requirements.txt
 ```
 
 ## usages

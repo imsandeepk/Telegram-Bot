@@ -224,7 +224,6 @@ class Instagram:
 
         return None
 
-    @staticmethod
     def search_tags_by_tag_name(self, tag):
         """
         param string tag

@@ -5,9 +5,9 @@ import json
 import hashlib
 import os
 from slugify import slugify
-from igramscraper.model import *
-from igramscraper.exception import *
-from igramscraper.two_step_verification import *
+from igramscraper.model import Account, Media, Tag, Like, Location, Story, Comment, CarouselMedia, UserStories 
+from igramscraper.exception import InstagramException, InstagramAuthException, InstagramNotFoundException
+from igramscraper.two_step_verification import ConsoleVerification
 from igramscraper import endpoints
 from igramscraper.session_manager import CookieSessionManager
 

@@ -676,9 +676,6 @@ class Instagram:
         except KeyError:
             return to_return
 
-        # if (count($arr['items']) === 0) {
-        # I generally use empty. Im not sure why people would use count really - If the array is large then count takes longer/has more overhead.
-        # If you simply need to know whether or not the array is empty then use empty.
         for mediaArray in nodes:
             medias.append(Media(mediaArray['node']))
 

@@ -9,7 +9,7 @@ It is not easy to get Applications approved for Instagram's API therefore I crea
 <br /><br />
 The goal of this project is to become as minimalistic as possible while still having all the needed functionality so that its easy to add code to it!
 
-**Any star or contribution is appreciated if you like the project ~** 🤘
+Any ⭐️ or contribution is appreciated if you like the project 🤘
 
 ## install
 Simply run:

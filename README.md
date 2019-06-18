@@ -31,7 +31,8 @@ from igramscraper.instagram import Instagram
 instagram = Instagram()
 
 # authentication supported
-instagram = Instagram.with_credentials('username', 'password')
+instagram = Instagram()
+instagram.with_credentials('username', 'password')
 instagram.login()
 
 account = instagram.get_account_by_id(3)

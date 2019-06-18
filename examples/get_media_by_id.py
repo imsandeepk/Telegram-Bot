@@ -4,7 +4,7 @@ from context import Instagram # pylint: disable=no-name-in-module
 instagram = Instagram()
 
 # If account is private and you subscribed to it, first login
-# instagram = Instagram.with_credentials('username', 'password', 'cachepath')
+# instagram.with_credentials('username', 'password', 'cachepath')
 # instagram.login()
 
 media = instagram.get_media_by_id('1270593720437182847')

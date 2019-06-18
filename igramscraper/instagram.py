@@ -42,8 +42,7 @@ class Instagram:
                           'AppleWebKit/537.36 (KHTML, like Gecko) ' \
                           'Chrome/66.0.3359.139 Safari/537.36'
 
-    @staticmethod
-    def with_credentials(username, password, session_folder=None):
+    def with_credentials(self, username, password, session_folder=None):
         """
         param string username
         param string password
@@ -68,11 +67,8 @@ class Instagram:
 
         Instagram.instance_cache.empty_saved_cookies()
 
-        instance = Instagram()
-        instance.session_username = username
-        instance.session_password = password
-
-        return instance
+        self.session_username = username
+        self.session_password = password
 
     def set_proxies(self, proxy):
         if proxy and isinstance(proxy, dict):

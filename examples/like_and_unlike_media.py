@@ -1,6 +1,7 @@
 from context import Instagram # pylint: disable=no-name-in-module
 
-instagram = Instagram.with_credentials('username', 'password', 'path/to/cache/folder')
+instagram = Instagram()
+instagram.with_credentials('username', 'password', 'path/to/cache/folder')
 instagram.login()
 
 instagram.like('1874597980243548658')

@@ -20,7 +20,8 @@ print(account)
 # username = ''
 # password = ''
 # session_folder = ''
-# instagram = Instagram.with_credentials(username, password, session_folder)
+# instagram = Instagram()
+# instagram.with_credentials(username, password, session_folder)
 # instagram = Instagram()
 # instagram.login()
 # instagram.get_medias('private_account', 100)

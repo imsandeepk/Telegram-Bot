@@ -1,4 +1,4 @@
-from .initializer_model import InitializerModel
+from igramscraper.model import InitializerModel
 import textwrap
 
 

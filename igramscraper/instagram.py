@@ -77,6 +77,12 @@ class Instagram:
     def disable_proxies(self):
         self.__req.proxies = {}
 
+    def get_user_agent(self):
+        return self.user_agent
+
+    def set_user_agent(self, user_agent):
+        self.user_agent = user_agent
+
     @staticmethod
     def set_account_medias_request_count(count):
         """
@@ -87,22 +93,16 @@ class Instagram:
 
     def get_account_by_id(self, id):
         """
-        param string $id
-
-        return Account
-        throws InstagramException
-        throws InvalidArgumentException
-        throws InstagramNotFoundException
+        :param id: account id
+        :return: Account
         """
         username = self.get_username_by_id(id)
         return self.get_account(username)
 
     def get_username_by_id(self, id):
         """
-        param string $id
-        return string
-        throws InstagramException
-        throws InstagramNotFoundException
+        :param id: account id
+        :return: username string from response
         """
         time.sleep(self.sleep_between_requests)
         response = self.__req.get(
@@ -130,9 +130,9 @@ class Instagram:
 
     def generate_headers(self, session, gis_token=None):
         """
-        @param $session
-        @param $gisToken
-        @return array
+        :param session: user session dict
+        :param gis_token: a token used to be verified by instagram in header
+        :return: header dict
         """
         headers = {}
         if session is not None:
@@ -160,15 +160,17 @@ class Instagram:
 
     def __generate_gis_token(self, variables):
         """
-        param $variables
-        return string
-        throws InstagramException
+        :param variables: a dict used to  generate_gis_token
+        :return: a token used to be verified by instagram
         """
-        rhx_gis = self.__get_rhx_gis() if self.__get_rhx_gis() != None else 'NULL'
-        string_to_hash = ':'.join([rhx_gis, json.dumps(variables, separators=(',', ':'))])
+        rhx_gis = self.__get_rhx_gis() if self.__get_rhx_gis() is not None else 'NULL'
+        string_to_hash = ':'.join([rhx_gis, json.dumps(variables, separators=(',', ':')) if isinstance(variables, dict) else variables])
         return hashlib.md5(string_to_hash.encode('utf-8')).hexdigest()
 
     def __get_rhx_gis(self):
+        """
+        :return: a string to generate gis_token
+        """
         if self.rhx_gis is None:
             try:
                 shared_data = self.__get_shared_data_from_page()
@@ -195,11 +197,9 @@ class Instagram:
 
     def __get_shared_data_from_page(self, url=endpoints.BASE_URL):
         """
-        param string $url
-        return mixed|null
-        throws InstagramException
-        throws InstagramNotFoundException
-         """
+        :param url: the requested url
+        :return: a dict extract from page
+        """
         url = url.rstrip('/') + '/'
         time.sleep(self.sleep_between_requests)
         response = self.__req.get(url, headers=self.generate_headers(
@@ -216,6 +216,10 @@ class Instagram:
 
     @staticmethod
     def extract_shared_data_from_body(body):
+        """
+        :param body: html string from a page
+        :return: a dict extract from page
+        """
         array = re.findall(r'_sharedData = .*?;</script>', body)
         if len(array) > 0:
             raw_json = array[0][len("_sharedData ="):-len(";</script>")]
@@ -226,11 +230,8 @@ class Instagram:
 
     def search_tags_by_tag_name(self, tag):
         """
-        param string tag
-
-        return array
-        throws InstagramException
-        throws InstagramNotFoundException
+        :param tag: tag string
+        :return: list of Tag
         """
         # TODO: Add tests and auth
         time.sleep(self.sleep_between_requests)
@@ -270,39 +271,29 @@ class Instagram:
 
     def get_medias(self, username, count=20, maxId=''):
         """
-        param string username
-        param int count
-        param string maxId
-
-        return Media[]
-        throws InstagramException
-        throws InstagramNotFoundException
+        :param username: instagram username
+        :param count: the number of how many media you want to get
+        :param maxId: used to paginate
+        :return: list of Media
         """
-
         account = self.get_account(username)
         return self.get_medias_by_user_id(account.identifier, count, maxId)
 
     def get_medias_by_code(self, media_code):
         """
-        param string mediaCode (for example BHaRdodBouH)
-
-        return Media
-        throws InstagramException
-        throws InstagramNotFoundException
+        :param media_code: media code
+        :return: Media
         """
         url = endpoints.get_media_page_link(media_code)
         return self.get_media_by_url(url)
 
     def get_medias_by_user_id(self, id, count=12, max_id=''):
         """
-        param int id
-        param int count
-        param string maxId
-
-        return Media[]
-        throws InstagramException
+        :param id: instagram account id
+        :param count: the number of how many media you want to get
+        :param max_id: used to paginate
+        :return: list of Media
         """
-
         index = 0
         medias = []
         is_more_available = True
@@ -360,22 +351,16 @@ class Instagram:
 
     def get_media_by_id(self, media_id):
         """
-        param mediaId
-
-        return Media
-        throws InstagramException
-        throws InstagramNotFoundException
+        :param media_id: media id
+        :return: list of Media
         """
         media_link = Media.get_link_from_id(media_id)
         return self.get_media_by_url(media_link)
 
     def get_media_by_url(self, media_url):
         """
-        param string $mediaUrl
-
-        return Media
-        throws InstagramException
-        throws InstagramNotFoundException
+        :param media_url: media url
+        :return: Media
         """
         url_regex = r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
 
@@ -405,11 +390,9 @@ class Instagram:
 
     def get_medias_from_feed(self, username, count=20):
         """
-        param string username
-        param int count
-        return Media[]
-        throws InstagramException
-        throws InstagramNotFoundException
+        :param username: instagram username
+        :param count: the number of how many media you want to get
+        :return: list of Media
         """
         medias = []
         index = 0
@@ -451,13 +434,11 @@ class Instagram:
 
     def get_medias_by_tag(self, tag, count=12, max_id='', min_timestamp=None):
         """
-        param string $tag
-        param int $count
-        param string $maxId
-        param string $minTimestamp
-
-        return Media[]
-        throws InstagramException
+        :param tag: tag string
+        :param count: the number of how many media you want to get
+        :param max_id: used to paginate
+        :param min_timestamp: limit the time you want to start from
+        :return: list of Media
         """
         index = 0
         medias = []
@@ -509,27 +490,24 @@ class Instagram:
 
         return medias
 
-    def get_medias_by_location_id(self, facebook_location_id, quantity=24,
-                                  offset=''):
+    def get_medias_by_location_id(self, facebook_location_id, count=24,
+                                  max_id=''):
         """
-        param string facebookLocationId
-        param int quantity
-        param string offset
-
-        return Media[]
-        throws InstagramException
+        :param facebook_location_id: facebook location id
+        :param count: the number of how many media you want to get
+        :param max_id: used to paginate
+        :return: list of Media
         """
-
         index = 0
         medias = []
-        has_next = True
+        has_next_page = True
 
-        while index < quantity and has_next:
+        while index < count and has_next_page:
 
             time.sleep(self.sleep_between_requests)
             response = self.__req.get(
                 endpoints.get_medias_json_by_location_id_link(
-                    facebook_location_id, offset),
+                    facebook_location_id, max_id),
                 headers=self.generate_headers(self.user_session))
 
             if response.status_code != Instagram.HTTP_OK:
@@ -541,7 +519,7 @@ class Instagram:
             nodes = arr['graphql']['location']['edge_location_to_media'][
                 'edges']
             for media_array in nodes:
-                if index == quantity:
+                if index == count:
                     return medias
 
                 medias.append(Media(media_array['node']))
@@ -554,7 +532,7 @@ class Instagram:
                 arr['graphql']['location']['edge_location_to_media'][
                     'page_info'][
                     'has_next_page']
-            end_cursor = \
+            max_id = \
                 arr['graphql']['location']['edge_location_to_media'][
                     'page_info'][
                     'end_cursor']
@@ -563,13 +541,9 @@ class Instagram:
 
     def get_current_top_medias_by_tag_name(self, tag_name):
         """
-        param $tagName
-
-        return Media[]
-        throws InstagramException
-        throws InstagramNotFoundException
+        :param tag_name: tag string
+        :return: list of the top Media
         """
-
         time.sleep(self.sleep_between_requests)
         response = self.__req.get(
             endpoints.get_medias_json_by_tag_link(tag_name, ''),
@@ -596,13 +570,10 @@ class Instagram:
         return medias
 
     def get_current_top_medias_by_location_id(self, facebook_location_id):
-        '''
-        param facebookLocationId
-     
-        return Media[]
-        throws InstagramException
-        throws InstagramNotFoundException
-        '''
+        """
+        :param facebook_location_id: facebook location id
+        :return: list of the top Media
+        """
         time.sleep(self.sleep_between_requests)
         response = self.__req.get(
             endpoints.get_medias_json_by_location_id_link(facebook_location_id),
@@ -628,15 +599,11 @@ class Instagram:
         return medias
 
     def get_paginate_medias(self, username, max_id=''):
-        '''
-        param string username
-        param string maxId
-    
-        return array
-        throws InstagramException
-        throws InstagramNotFoundException
-        '''
-
+        """
+        :param username: instagram user name
+        :param max_id: used to paginate next time
+        :return: dict that contains Media list, maxId, hasNextPage
+        """
         account = self.get_account(username)
         has_next_page = True
         medias = []
@@ -674,7 +641,7 @@ class Instagram:
         for mediaArray in nodes:
             medias.append(Media(mediaArray['node']))
 
-        end_cursor = \
+        max_id = \
             arr['data']['user']['edge_owner_to_timeline_media']['page_info'][
                 'end_cursor']
         has_next_page = \
@@ -691,11 +658,9 @@ class Instagram:
 
     def get_paginate_medias_by_tag(self, tag, max_id=''):
         """
-        param string tag
-        param string maxId
-
-        return array
-        throws InstagramException
+        :param tag: tag name
+        :param max_id: used to paginate next time
+        :return: dict that contains Media list, maxId, hasNextPage
         """
         has_next_page = True
         medias = []
@@ -748,11 +713,8 @@ class Instagram:
 
     def get_location_by_id(self, facebook_location_id):
         """
-        param string $facebookLocationId
-
-        return Location
-        throws InstagramException
-        throws InstagramNotFoundException
+        :param facebook_location_id: facebook location id
+        :return: Location
         """
         time.sleep(self.sleep_between_requests)
         response = self.__req.get(
@@ -773,12 +735,10 @@ class Instagram:
 
     def get_media_likes_by_code(self, code, count=10, max_id=None):
         """
-        param      code
-        param int count
-        param null maxId
-
-        return array
-        throws InstagramException
+        :param code:
+        :param count:
+        :param max_id:
+        :return:
         """
         pass
         # TODO implement
@@ -837,13 +797,12 @@ class Instagram:
         # TODO implement
         # previous method of extracting this data not working any longer
         """
-        param string accountId Account id of the profile to query
-        param int count Total followers to retrieve
-        param int pageSize Internal page size for pagination
-        param bool delayed Use random delay between self.__req to mimic browser behaviour
-
-        return array
-        throws InstagramException
+        :param account_id:
+        :param count:
+        :param page_size:
+        :param end_cursor:
+        :param delayed:
+        :return:
         """
         # TODO set time limit
         # if ($delayed) {
@@ -920,13 +879,12 @@ class Instagram:
     def get_following(self, account_id, count=20, page_size=20, end_cursor='',
                       delayed=True):
         """
-        param string $accountId Account id of the profile to query
-        param int $count Total followed accounts to retrieve
-        param int $pageSize Internal page size for pagination
-        param bool $delayed Use random delay between self.__req to mimic browser behaviour
-
-        return array
-        throws InstagramException
+        :param account_id:
+        :param count:
+        :param page_size:
+        :param end_cursor:
+        :param delayed:
+        :return:
         """
         pass
         # TODO implement
@@ -1002,12 +960,10 @@ class Instagram:
 
     def get_media_comments_by_id(self, media_id, count=10, max_id=None):
         """
-        param mediaId
-        param int count
-        param null maxId
-
-        return Comment[]
-        throws InstagramException
+        :param media_id: media id
+        :param count: the number of how many comments you want to get
+        :param max_id: used to paginate
+        :return: Comment List
         """
         code = Media.get_code_from_id(media_id)
         return self.get_media_comments_by_code(code, count, max_id)
@@ -1015,12 +971,10 @@ class Instagram:
     def get_media_comments_by_code(self, code, count=10, max_id=''):
         # TODO implement not working!
         """
-        param      $code
-        param int $count
-        param null $maxId
-
-        return Comment[]
-        throws InstagramException
+        :param code: media code
+        :param count: the number of how many comments you want to get
+        :param max_id: used to paginate
+        :return: Comment List
         """
         comments = []
         index = 0
@@ -1079,11 +1033,8 @@ class Instagram:
 
     def get_account(self, username):
         """
-        param string $username
-
-        return Account
-        throws InstagramException
-        throws InstagramNotFoundException
+        :param username: username
+        :return: Account
         """
         time.sleep(self.sleep_between_requests)
         response = self.__req.get(endpoints.get_account_page_link(
@@ -1108,11 +1059,9 @@ class Instagram:
 
     def get_stories(self, reel_ids=None):
         """
-        param array reel_ids - array of instagram user ids
-        return array
-        throws InstagramException
+        :param reel_ids: reel ids
+        :return: UserStories List
         """
-
         variables = {'precomposed_overlay': False, 'reel_ids': []}
 
         if reel_ids is None or len(reel_ids) == 0:
@@ -1171,13 +1120,9 @@ class Instagram:
 
     def search_accounts_by_username(self, username):
         """
-        param string username
-
-        return Account[]
-        throws InstagramException
-        throws InstagramNotFoundException
+        :param username: user name
+        :return: Account List
         """
-
         time.sleep(self.sleep_between_requests)
         response = self.__req.get(
             endpoints.get_general_search_json_link(username),
@@ -1217,13 +1162,11 @@ class Instagram:
 
         return accounts
 
-    # TODO not optimal seperate http call after getMedia
+    # TODO not optimal separate http call after getMedia
     def get_media_tagged_users_by_code(self, code):
         """
-        param $code
-
-        return array
-        throws InstagramException
+        :param code: media short code
+        :return: list contains tagged_users dict
         """
         url = endpoints.get_media_json_link(code)
 
@@ -1261,9 +1204,8 @@ class Instagram:
 
     def is_logged_in(self, session):
         """
-        param $session
-
-        return bool
+        :param session: session dict
+        :return: bool
         """
         if session is None or 'sessionid' not in session.keys():
             return False
@@ -1293,18 +1235,11 @@ class Instagram:
         return True
 
     def login(self, force=False, two_step_verificator=None):
+        """support_two_step_verification true works only in cli mode - just run login in cli mode - save cookie to file and use in any mode
+        :param force: true will refresh the session
+        :param two_step_verificator: true will need to do verification when an account goes wrong
+        :return: headers dict
         """
-        param bool $force
-        param bool|TwoStepVerificationInterface $twoStepVerificator
-
-        support_two_step_verification true works only in cli mode - just run login in cli mode - save cookie to file and use in any mode
-
-        throws InstagramAuthException
-        throws InstagramException
-
-        return array
-        """
-
         if self.session_username is None or self.session_password is None:
             raise InstagramAuthException("User credentials not provided")
 
@@ -1379,13 +1314,11 @@ class Instagram:
 
     def __verify_two_step(self, response, cookies, two_step_verificator):
         """
-        param response
-        param cookies
-        param TwoStepVerificationInterface $twoStepVerificator
-        return Unirest\Response
-        throws InstagramAuthException
+        :param response: Response object returned by Request
+        :param cookies: user cookies
+        :param two_step_verificator: two_step_verification instance
+        :return: Response
         """
-
         new_cookies = response.cookies.get_dict()
         cookies = {**cookies, **new_cookies}
 
@@ -1463,12 +1396,10 @@ class Instagram:
 
     def add_comment(self, media_id, text, replied_to_comment_id=None):
         """
-        param int|string|Media $mediaId
-        param int|string $text
-        param int|string|Comment|null $repliedToCommentId
-
-        return Comment
-        throws InstagramException
+        :param media_id: media id
+        :param text:  the content you want to post
+        :param replied_to_comment_id: the id of the comment you want to reply
+        :return: Comment
         """
         media_id = media_id.identifier if isinstance(media_id, Media) else media_id
         
@@ -1500,10 +1431,8 @@ class Instagram:
 
     def delete_comment(self, media_id, comment_id):
         """
-        param string|Media $mediaId
-        param int|string|Comment $commentId
-        return void
-        throws InstagramException
+        :param media_id: media id
+        :param comment_id: the id of the comment you want to delete
         """
         media_id = media_id.identifier if isinstance(media_id,
                                                      Media) else media_id
@@ -1531,10 +1460,7 @@ class Instagram:
 
     def like(self, media_id):
         """
-        param int|string|Media $mediaId
-
-        return void
-        throws InstagramException
+        :param media_id: media id
         """
         media_id = media_id.identifier if isinstance(media_id,
                                                      Media) else media_id
@@ -1558,9 +1484,7 @@ class Instagram:
 
     def unlike(self, media_id):
         """
-        param int|string|Media $mediaId
-        return void
-        throws InstagramException
+        :param media_id: media id
         """
         media_id = media_id.identifier if isinstance(media_id,
                                                      Media) else media_id
@@ -1582,12 +1506,14 @@ class Instagram:
                 f' Please report issue.',
                 response.status_code)
 
-    def follow(self, user_id, username=None):
-        """ Send http request to follow """
+    def follow(self, user_id):
+        """
+        :param user_id: user id
+        :return: bool
+        """
         if self.is_logged_in(self.user_session):
             url = endpoints.get_follow_url(user_id)
-            if username is None:
-                username = self.get_username_by_id(user_id)
+
             try:
                 follow = self.__req.post(url,
                                          headers=self.generate_headers(
@@ -1598,12 +1524,15 @@ class Instagram:
                 raise InstagramException("Except on follow!")
         return False
 
-    def unfollow(self, user_id, username=""):
-        """ Send http request to unfollow """
+    def unfollow(self, user_id):
+        """
+        :param user_id: user id
+        :return: bool
+        """
         if self.is_logged_in(self.user_session):
             url_unfollow = endpoints.get_unfollow_url(user_id)
             try:
-                unfollow = self.s.post(url_unfollow)
+                unfollow = self.__req.post(url_unfollow)
                 if unfollow.status_code == Instagram.HTTP_OK:
                     return unfollow
             except:

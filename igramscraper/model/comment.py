@@ -1,6 +1,4 @@
-from .initializer_model import InitializerModel
-import textwrap
-
+from igramscraper.model import InitializerModel
 
 class Comment(InitializerModel):
     """

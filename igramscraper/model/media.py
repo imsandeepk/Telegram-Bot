@@ -1,13 +1,8 @@
 import urllib.parse
 import textwrap
 
-from .initializer_model import InitializerModel
+from igramscraper.model import InitializerModel, Comment, Account, CarouselMedia
 from igramscraper import endpoints
-from .carousel_media import CarouselMedia
-from .comment import Comment
-
-
-# there is one more import when Media.owner is set
 
 
 class Media(InitializerModel):
@@ -153,8 +148,6 @@ class Media(InitializerModel):
         elif prop == 'carousel_media':
             self.type = Media.TYPE_CAROUSEL
             self.carousel_media = []
-            # print(arr["carousel_media"])
-            exit()
             for carousel_array in arr["carousel_media"]:
                 self.set_carousel_media(arr, carousel_array)
 
@@ -182,7 +175,6 @@ class Media(InitializerModel):
             self.location_slug = arr[prop]['slug']
 
         elif prop == 'user' or prop == 'owner':
-            from .account import Account
             self.owner = Account(arr[prop])
 
         elif prop == 'is_video':

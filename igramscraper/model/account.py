@@ -1,5 +1,4 @@
-from .initializer_model import InitializerModel
-from .media import Media
+from igramscraper.model import InitializerModel, Media
 import textwrap
 
 
@@ -18,7 +17,7 @@ class Account(InitializerModel):
         self.media_count = 0
         self.is_private = False
         self.is_verified = False
-        self.medias = {}
+        self.medias = []
         self.blocked_by_viewer = False
         self.country_block = False
         self.followed_by_viewer = False
@@ -106,7 +105,7 @@ class Account(InitializerModel):
             'requested_by_viewer',
             'connected_fb_page'
         ]
-        if prop in standart_properties: 
+        if prop in standart_properties:
             self.__setattr__(prop, value)   
         
         if prop == 'edge_follow':

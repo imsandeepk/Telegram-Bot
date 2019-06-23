@@ -1,4 +1,5 @@
-from igramscraper.model import InitializerModel
+from .initializer_model import InitializerModel
+
 
 class Comment(InitializerModel):
     """

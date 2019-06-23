@@ -1,4 +1,4 @@
-from igramscraper.model import Media
+from .media import Media
 import textwrap
 
 

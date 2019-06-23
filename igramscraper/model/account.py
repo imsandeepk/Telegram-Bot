@@ -1,4 +1,5 @@
-from igramscraper.model import InitializerModel, Media
+from .initializer_model import InitializerModel
+from .media import Media
 import textwrap
 
 

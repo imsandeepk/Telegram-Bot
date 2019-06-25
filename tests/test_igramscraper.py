@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import patch
 from test_data import username, password, user_agent
+from igramscraper.model import Media
 import os
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -58,6 +59,38 @@ class TestIgramscraper(unittest.TestCase):
     def test_get_media_by_url(self):
         media = self.instagram.get_media_by_url('https://www.instagram.com/p/BHaRdodBouH')
         self.assertEqual('kevin', media.owner.username)
+
+    def test_get_account_by_id_with_invalid_numeric_id(self):
+        # sys.maxsize is far larger than the greatest id so far and thus does not represent a valid account.
+        try:
+            self.instagram.get_account_by_id(sys.maxsize)
+        except Exception as e:
+            self.assertEqual(str(e), 'Failed to fetch account with given id')
+
+    def test_get_location_top_medias_by_id(self):
+        medias = self.instagram.get_current_top_medias_by_tag_name(1)
+        self.assertEqual(9, len(medias))
+
+    def test_get_location_medias_by_id(self):
+        medias = self.instagram.get_medias_by_location_id(1, 56)
+        self.assertEqual(56, len(medias))
+
+    def test_get_location_by_id(self):
+        location = self.instagram.get_location_by_id(1)
+        self.assertEqual('Dog Patch Labs', location.name)
+
+    def test_get_id_from_code(self):
+        code = Media.get_code_from_id('1270593720437182847')
+        self.assertEqual('BGiDkHAgBF_', code)
+        code = Media.get_code_from_id('1270593720437182847_3')
+        self.assertEqual('BGiDkHAgBF_', code)
+        code = Media.get_code_from_id(1270593720437182847)
+        self.assertEqual('BGiDkHAgBF_', code)
+    
+    def test_get_code_from_id(self):
+        id = Media.get_id_from_code('BGiDkHAgBF_')
+        self.assertEqual(1270593720437182847, id)
+    
     
 
 

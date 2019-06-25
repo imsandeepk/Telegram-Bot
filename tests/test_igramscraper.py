@@ -92,7 +92,25 @@ class TestIgramscraper(unittest.TestCase):
         self.assertEqual(1270593720437182847, id)
     
     
+    def test_get_media_comments_by_code(self):
+        comments = self.instagram.get_media_comments_by_code('BR5Njq1gKmB', 40)
+        #TODO: check why returns less comments
+        self.assertLessEqual(40, len(comments))
 
+    def test_get_username_by_id(self):
+        username = self.instagram.get_username_by_id(3)
+        self.assertEqual('kevin', username)
+    
+    def test_get_medias_by_user_id(self):
+        medias = self.instagram.get_medias_by_user_id(3)
+        self.assertEqual(12, len(medias))
+    
+    # TODO add like test
+    # TODO add unlike test
+    # TODO add comment and uncomment test
+    # TODO add follow unfollow test
+    # TODO: Add test get_media_by_id
+    # TODO: Add test get_location_by_id
 
 if __name__ == '__main__':
     unittest.main()

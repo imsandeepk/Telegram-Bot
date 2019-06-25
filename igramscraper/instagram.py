@@ -976,6 +976,7 @@ class Instagram:
         :param max_id: used to paginate
         :return: Comment List
         """
+        return 0
         comments = []
         index = 0
         has_previous = True

@@ -80,5 +80,10 @@ print(account.identifier)
 ## more usages
 See examples [here](https://github.com/SergioWagenleitner/instagram-scraper/tree/master/examples).
 
+## contributing
+Every contribution is welcome, check out our [TODOs](https://github.com/realsirjoe/instagram-scraper/blob/master/CONTRIBUTING.md)
+<br />
+and join our telegram group: https://t.me/joinchat/AAAAAFEbhU2b14Dh7w8Zhw
+
 ## other
 instagram-php-scraper [here](https://github.com/postaddictme/instagram-php-scraper/tree/master/examples).

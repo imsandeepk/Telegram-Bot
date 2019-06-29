@@ -74,6 +74,9 @@ class Instagram:
         if proxy and isinstance(proxy, dict):
             self.__req.proxies = proxy
 
+    def disable_verify(self):
+        self.__req.verify = False
+
     def disable_proxies(self):
         self.__req.proxies = {}
 

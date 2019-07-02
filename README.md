@@ -88,4 +88,4 @@ Every contribution is welcome, check out our [TODOs](https://github.com/realsirj
 and join our telegram group: https://t.me/joinchat/AAAAAFEbhU2b14Dh7w8Zhw
 
 ## Other
-You can find the link to instagram-php-scraper [here](https://github.com/postaddictme/instagram-php-scraper/tree/master/examples).
+instagram-php-scraper [here](https://github.com/postaddictme/instagram-php-scraper/)

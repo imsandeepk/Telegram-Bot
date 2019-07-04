@@ -867,7 +867,7 @@ class Instagram:
 
             for edge in edgesArray:
 
-                accounts.append(edge['node'])
+                accounts.append(Account(edge['node']))
                 index += 1
 
                 if index >= count:
@@ -953,7 +953,7 @@ class Instagram:
                 next_page = pageInfo['end_cursor']
 
             for edge in edgesArray:
-                accounts.append(edge['node'])
+                accounts.append(Account(edge['node']))
                 index += 1
                 if index >= count:
                     #since no break 2, looking for better solution since duplicate code

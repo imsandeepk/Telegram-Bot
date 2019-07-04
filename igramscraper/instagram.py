@@ -5,6 +5,7 @@ import json
 import hashlib
 import os
 from slugify import slugify
+import random
 from .session_manager import CookieSessionManager
 from .exception.instagram_auth_exception import InstagramAuthException
 from .exception.instagram_exception import InstagramException
@@ -57,7 +58,6 @@ class Instagram:
 
         return Instagram
         """
-        print("hello")
         Instagram.instance_cache = None
 
         if not session_folder:
@@ -77,7 +77,6 @@ class Instagram:
        
         self.session_username = username
         self.session_password = password
-        print(username)
 
     def set_proxies(self, proxy):
         if proxy and isinstance(proxy, dict):
@@ -149,7 +148,7 @@ class Instagram:
         headers = {}
         if session is not None:
             cookies = ''
-
+            
             for key in session.keys():
                 cookies += f"{key}={session[key]}; "
 
@@ -806,8 +805,7 @@ class Instagram:
 
     def get_followers(self, account_id, count=20, page_size=20, end_cursor='',
                       delayed=True):
-        # TODO implement
-        # previous method of extracting this data not working any longer
+
         """
         :param account_id:
         :param count:
@@ -833,18 +831,24 @@ class Instagram:
         while True:
             next_page = None
             time.sleep(self.sleep_between_requests)
+
+            variables = {
+                'id': str(account_id),
+                'first': str(count),
+                'after': '' if not next_page else next_page
+            }
+
+            headers = self.generate_headers(self.user_session)
+
             response = self.__req.get(
-                endpoints.get_followers_json_link(account_id, page_size,
-                                                  end_cursor),
-                headers=self.generate_headers(self.user_session))
+                endpoints.get_followers_json_link2(variables),
+                headers=headers)
 
             if not response.status_code == Instagram.HTTP_OK:
                 raise InstagramException.default(response.text,
                                                  response.status_code)
 
             jsonResponse = response.json()
-            # TODO request gives empty response, fix
-            print(jsonResponse)
 
             if jsonResponse['data']['user']['edge_followed_by']['count'] == 0:
                 return accounts
@@ -857,36 +861,39 @@ class Instagram:
                     f' The account is private.',
                     Instagram.HTTP_FORBIDDEN)
 
-            exit()
             pageInfo = jsonResponse['data']['user']['edge_followed_by'][
                 'page_info']
             if pageInfo['has_next_page']:
                 next_page = pageInfo['end_cursor']
+
             for edge in edgesArray:
+
                 accounts.append(edge['node'])
                 index += 1
+
                 if index >= count:
-                    pass
-                    # TODO does not work in python
-                    # break 2
+                    #since break 2, looking for better solution since duplicate code
+                    data = {}
+                    data['next_page'] = next_page
+                    data['accounts'] = accounts
 
-            # $pageInfo = $jsonResponse['data']['user']['edge_followed_by']['page_info'];
-            # if ($pageInfo['has_next_page']) {
-            #     $endCursor = $pageInfo['end_cursor'];
-            # } else {
-            #     break;
-            # }
+                    return data
 
-            # if ($delayed) {
-            #     # Random wait between 1 and 3 sec to mimic browser
-            #     $microsec = rand($this-> Microsec, $this->pagingDelayMaximumMicrosec);
-            #     usleep($microsec);
-            # }
+            #must be below here
+            if not pageInfo['has_next_page']:
+                break
 
-        # $data['next_page'] = $next_page;
-        # $data['accounts'] = $accounts;
+            if delayed != None:
+                pass
+                # Random wait between 1 and 3 sec to mimic browser
+                microsec = random.uniform(1.0, 3.0)
+                time.sleep(microsec)
+                
+        data = {}
+        data['next_page'] = next_page
+        data['accounts'] = accounts
 
-        # return $data;
+        return data
 
     def get_following(self, account_id, count=20, page_size=20, end_cursor='',
                       delayed=True):

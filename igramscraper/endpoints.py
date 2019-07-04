@@ -19,6 +19,7 @@ COMMENTS_BEFORE_COMMENT_ID_BY_CODE = 'https://www.instagram.com/graphql/query/?q
 LIKES_BY_SHORTCODE = 'https://www.instagram.com/graphql/query/?query_id=17864450716183058&variables={"shortcode":"%s","first":%s,"after":"%s"}'
 FOLLOWING_URL = 'https://www.instagram.com/graphql/query/?query_id=17874545323001329&id={{accountId}}&first={{count}}&after={{after}}'
 FOLLOWERS_URL = 'https://www.instagram.com/graphql/query/?query_id=17851374694183129&id={{accountId}}&first={{count}}&after={{after}}'
+FOLLOWERS_URL2 = 'https://www.instagram.com/graphql/query/?query_hash=c76146de99bb02f6415203be841dd25a&variables=%s'
 FOLLOW_URL = 'https://www.instagram.com/web/friendships/%s/follow/'
 UNFOLLOW_URL = 'https://www.instagram.com/web/friendships/%s/unfollow/'
 INSTAGRAM_CDN_URL = 'https://scontent.cdninstagram.com/'
@@ -98,6 +99,9 @@ def get_followers_json_link(account_id, count, after=''):
         url = url.replace('{{after}}', urllib.parse.quote_plus(str(after)))
 
     return url
+
+def get_followers_json_link2(variables):
+    return FOLLOWERS_URL2 % urllib.parse.quote_plus(json.dumps(variables, separators=(',', ':')))
 
 
 def get_following_json_link(account_id, count, after=''):

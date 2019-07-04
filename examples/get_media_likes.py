@@ -1,7 +1,7 @@
 from context import Instagram # pylint: disable=no-name-in-module
 
 instagram = Instagram()
-instagram.with_credentials('', '', '')
+instagram.with_credentials('', '', '/pathtofolder')
 instagram.login()
 
 # Get media comments by shortcode

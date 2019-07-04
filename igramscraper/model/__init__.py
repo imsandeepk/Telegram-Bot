@@ -1,7 +1,6 @@
 from igramscraper.model.account import Account
 from igramscraper.model.media import Media
 from igramscraper.model.tag import Tag
-from igramscraper.model.like import Like
 from igramscraper.model.location import Location
 from igramscraper.model.story import Story
 from igramscraper.model.comment import Comment

@@ -17,9 +17,10 @@ MEDIA_JSON_BY_TAG = 'https://www.instagram.com/explore/tags/%s/?__a=1&max_id=%s'
 GENERAL_SEARCH = 'https://www.instagram.com/web/search/topsearch/?query=%s'
 COMMENTS_BEFORE_COMMENT_ID_BY_CODE = 'https://www.instagram.com/graphql/query/?query_hash=33ba35852cb50da46f5b5e889df7d159&variables=%s'
 LIKES_BY_SHORTCODE = 'https://www.instagram.com/graphql/query/?query_id=17864450716183058&variables={"shortcode":"%s","first":%s,"after":"%s"}'
-FOLLOWING_URL = 'https://www.instagram.com/graphql/query/?query_id=17874545323001329&id={{accountId}}&first={{count}}&after={{after}}'
-FOLLOWERS_URL = 'https://www.instagram.com/graphql/query/?query_id=17851374694183129&id={{accountId}}&first={{count}}&after={{after}}'
-FOLLOWERS_URL2 = 'https://www.instagram.com/graphql/query/?query_hash=c76146de99bb02f6415203be841dd25a&variables=%s'
+FOLLOWING_URL_OLD = 'https://www.instagram.com/graphql/query/?query_id=17874545323001329&id={{accountId}}&first={{count}}&after={{after}}'
+FOLLOWING_URL = 'https://www.instagram.com/graphql/query/?query_hash=d04b0a864b4b54837c0d870b0e77e076&variables=%s'
+FOLLOWERS_URL_OLD = 'https://www.instagram.com/graphql/query/?query_id=17851374694183129&id={{accountId}}&first={{count}}&after={{after}}'
+FOLLOWERS_URL = 'https://www.instagram.com/graphql/query/?query_hash=c76146de99bb02f6415203be841dd25a&variables=%s'
 FOLLOW_URL = 'https://www.instagram.com/web/friendships/%s/follow/'
 UNFOLLOW_URL = 'https://www.instagram.com/web/friendships/%s/unfollow/'
 INSTAGRAM_CDN_URL = 'https://scontent.cdninstagram.com/'
@@ -88,8 +89,8 @@ def get_unfollow_url(account_id):
     return UNFOLLOW_URL % urllib.parse.quote_plus(account_id)
 
 
-def get_followers_json_link(account_id, count, after=''):
-    url = FOLLOWERS_URL.replace(
+def get_followers_json_link_old(account_id, count, after=''):
+    url = FOLLOWERS_URL_OLD.replace(
         '{{accountId}}', urllib.parse.quote_plus(account_id))
     url = url.replace('{{count}}', urllib.parse.quote_plus(str(count)))
 
@@ -100,12 +101,12 @@ def get_followers_json_link(account_id, count, after=''):
 
     return url
 
-def get_followers_json_link2(variables):
-    return FOLLOWERS_URL2 % urllib.parse.quote_plus(json.dumps(variables, separators=(',', ':')))
+def get_followers_json_link(variables):
+    return FOLLOWERS_URL % urllib.parse.quote_plus(json.dumps(variables, separators=(',', ':')))
 
 
-def get_following_json_link(account_id, count, after=''):
-    url = FOLLOWING_URL.replace(
+def get_following_json_link_old(account_id, count, after=''):
+    url = FOLLOWING_URL_OLD.replace(
         '{{accountId}}', urllib.parse.quote_plus(account_id))
     url = url.replace('{{count}}', urllib.parse.quote_plus(count))
 
@@ -116,6 +117,8 @@ def get_following_json_link(account_id, count, after=''):
 
     return url
 
+def get_following_json_link(variables):
+    return FOLLOWING_URL % urllib.parse.quote_plus(json.dumps(variables, separators=(',', ':')))
 
 def get_user_stories_link():
     return get_graph_ql_url(USER_STORIES, {'variables': json.dumps([], separators=(',', ':'))})

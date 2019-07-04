@@ -841,7 +841,7 @@ class Instagram:
             headers = self.generate_headers(self.user_session)
 
             response = self.__req.get(
-                endpoints.get_followers_json_link2(variables),
+                endpoints.get_followers_json_link(variables),
                 headers=headers)
 
             if not response.status_code == Instagram.HTTP_OK:

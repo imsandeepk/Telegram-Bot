@@ -3,13 +3,14 @@ from time import sleep
 
 instagram = Instagram()
 instagram.with_credentials('', '', 'cachefolderpath')
-instagram.login(force=False,two_step_verificator=True)
+instagram.login()
 
 sleep(2) # Delay to mimic user
 
 username = 'kevin'
-followers = []
+following = []
 account = instagram.get_account(username)
 sleep(1)
-followers = instagram.get_followers(account.identifier, 150, 100, delayed=True) # Get 150 followers of 'kevin', 100 a time with random delay between requests
-print(followers)
+following = instagram.get_following(account.identifier, 150, 100, delayed=True) 
+for following_user in following['accounts']:
+    print(following_user)

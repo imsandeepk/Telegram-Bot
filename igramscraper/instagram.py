@@ -822,20 +822,19 @@ class Instagram:
         index = 0
         accounts = []
 
-        next_page = None
+        next_page = end_cursor
 
         if count < page_size:
             raise InstagramException(
                 'Count must be greater than or equal to page size.')
 
         while True:
-            next_page = None
             time.sleep(self.sleep_between_requests)
 
             variables = {
                 'id': str(account_id),
                 'first': str(count),
-                'after': '' if not next_page else next_page
+                'after': next_page
             }
 
             headers = self.generate_headers(self.user_session)
@@ -872,7 +871,7 @@ class Instagram:
                 index += 1
 
                 if index >= count:
-                    #since break 2, looking for better solution since duplicate code
+                    #since break 2 not in python, looking for better solution since duplicate code
                     data = {}
                     data['next_page'] = next_page
                     data['accounts'] = accounts
@@ -884,7 +883,6 @@ class Instagram:
                 break
 
             if delayed != None:
-                pass
                 # Random wait between 1 and 3 sec to mimic browser
                 microsec = random.uniform(1.0, 3.0)
                 time.sleep(microsec)
@@ -905,77 +903,79 @@ class Instagram:
         :param delayed:
         :return:
         """
-        pass
-        # TODO implement
-        # previous method of extracting this data not working any longer
 
-    # {
+        #TODO
     #     if ($delayed) {
     #         set_time_limit($this->pagingTimeLimitSec);
     #     }
 
-    #     $index = 0;
-    #     $accounts = [];
+        index = 0
+        accounts = []
 
-    #     $next_page = null;
+        next_page = end_cursor
 
-    #     if ($count < $pageSize) {
-    #         throw new InstagramException('Count must be greater than or equal to page size.');
-    #     }
+        if count < page_size:
+            raise InstagramException('Count must be greater than or equal to page size.')
 
-    #     while (true) {
-    #         $next_page = null;
+        while True:
 
-    #         $response = Request::get(endpoints::getFollowingJsonLink($accountId, $pageSize, $endCursor),
-    #             $this->generateHeaders($this->userSession));
+            variables = {
+                'id': str(account_id),
+                'first': str(count),
+                'after': next_page
+            }
 
-    #         if ($response->code !== static::HTTP_OK) {
-    #             throw new InstagramException('Response code is ' . $response->code . '. Body: ' . static::getErrorBody($response->body) . ' Something went wrong. Please report issue.', $response->code);
-    #         }
+            headers = self.generate_headers(self.user_session)
 
-    #         $jsonResponse = $this->decodeRawBodyToJson($response->raw_body);
 
-    #         if ($jsonResponse['data']['user']['edge_follow']['count'] === 0) {
-    #             return $accounts;
-    #         }
+            response = self.__req.get(
+                endpoints.get_following_json_link(variables),
+                headers=headers)
 
-    #         $edgesArray = $jsonResponse['data']['user']['edge_follow']['edges'];
-    #         if (count($edgesArray) === 0) {
-    #             throw new InstagramException('Failed to get followers of account id ' . $accountId . '. The account is private.', static::HTTP_FORBIDDEN);
-    #         }
+            if not response.status_code == Instagram.HTTP_OK:
+                raise InstagramException.default(response.text,response.status_code)
 
-    #         $pageInfo = $jsonResponse['data']['user']['edge_follow']['page_info'];
-    #         if ($pageInfo['has_next_page']) {
-    #             $next_page = $pageInfo['end_cursor'];
-    #         }
+            jsonResponse = response.json()
+            if jsonResponse['data']['user']['edge_follow']['count'] == 0:
+                return accounts
 
-    #         foreach ($edgesArray as $edge) {
-    #             $accounts[] = $edge['node'];
-    #             $index++;
-    #             if ($index >= $count) {
-    #                 break 2;
-    #             }
-    #         }
+            edgesArray = jsonResponse['data']['user']['edge_follow'][
+                'edges']
 
-    #         $pageInfo = $jsonResponse['data']['user']['edge_follow']['page_info'];
-    #         if ($pageInfo['has_next_page']) {
-    #             $endCursor = $pageInfo['end_cursor'];
-    #         } else {
-    #             break;
-    #         }
+            if len(edgesArray) == 0:
+                raise InstagramException(
+                    f'Failed to get follows of account id {account_id}.'
+                    f' The account is private.',
+                    Instagram.HTTP_FORBIDDEN)
 
-    #         if ($delayed) {
-    #             # Random wait between 1 and 3 sec to mimic browser
-    #             $microsec = rand($this->pagingDelayMinimumMicrosec, $this->pagingDelayMaximumMicrosec);
-    #             usleep($microsec);
-    #         }
-    #     }
+            pageInfo = jsonResponse['data']['user']['edge_follow']['page_info']
+            if pageInfo['has_next_page']:
+                next_page = pageInfo['end_cursor']
 
-    #     $data['next_page'] = $next_page;
-    #     $data['accounts'] = $accounts;
+            for edge in edgesArray:
+                accounts.append(edge['node'])
+                index += 1
+                if index >= count:
+                    #since no break 2, looking for better solution since duplicate code
+                    data = {}
+                    data['next_page'] = next_page
+                    data['accounts'] = accounts
 
-    #     return $data;
-    # }
+                    return data
+
+            #must be below here
+            if not pageInfo['has_next_page']:
+                break
+
+            if delayed != None:
+                # Random wait between 1 and 3 sec to mimic browser
+                microsec = random.uniform(1.0, 3.0)
+                time.sleep(microsec)
+
+        data['next_page'] = next_page
+        data['accounts'] = accounts
+
+        return data
 
     def get_media_comments_by_id(self, media_id, count=10, max_id=None):
         """

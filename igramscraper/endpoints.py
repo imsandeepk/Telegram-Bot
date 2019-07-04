@@ -15,7 +15,7 @@ MEDIA_JSON_INFO = 'https://www.instagram.com/p/%s/?__a=1'
 MEDIA_JSON_BY_LOCATION_ID = 'https://www.instagram.com/explore/locations/%s/?__a=1&max_id=%s'
 MEDIA_JSON_BY_TAG = 'https://www.instagram.com/explore/tags/%s/?__a=1&max_id=%s'
 GENERAL_SEARCH = 'https://www.instagram.com/web/search/topsearch/?query=%s'
-COMMENTS_BEFORE_COMMENT_ID_BY_CODE = 'https://www.instagram.com/graphql/query/?query_hash=33ba35852cb50da46f5b5e889df7d159&variables=%s'
+COMMENTS_BEFORE_COMMENT_ID_BY_CODE = 'https://www.instagram.com/graphql/query/?query_hash=97b41c52301f77ce508f55e66d17620e&variables=%s'
 LIKES_BY_SHORTCODE_OLD = 'https://www.instagram.com/graphql/query/?query_id=17864450716183058&variables={"shortcode":"%s","first":%s,"after":"%s"}'
 LIKES_BY_SHORTCODE = 'https://www.instagram.com/graphql/query/?query_hash=d5d763b1e2acf209d62d22d184488e57&variables=%s'
 FOLLOWING_URL_OLD = 'https://www.instagram.com/graphql/query/?query_id=17874545323001329&id={{accountId}}&first={{count}}&after={{after}}'
@@ -75,7 +75,7 @@ def get_general_search_json_link(query):
 
 
 def get_comments_before_comments_id_by_code(variables):
-    return COMMENTS_BEFORE_COMMENT_ID_BY_CODE % urllib.parse.quote_plus(variables)
+    return COMMENTS_BEFORE_COMMENT_ID_BY_CODE % urllib.parse.quote_plus(json.dumps(variables, separators=(',', ':')))
 
 
 def get_last_likes_by_code_old(code, count, last_like_id):

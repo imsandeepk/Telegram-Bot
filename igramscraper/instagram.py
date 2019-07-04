@@ -751,7 +751,6 @@ class Instagram:
         :param max_id:
         :return:
         """
-        # TODO implement
 
         remain = count
         likes = []
@@ -1003,68 +1002,69 @@ class Instagram:
         return self.get_media_comments_by_code(code, count, max_id)
 
     def get_media_comments_by_code(self, code, count=10, max_id=''):
-        # TODO implement not working!
+
         """
         :param code: media code
         :param count: the number of how many comments you want to get
         :param max_id: used to paginate
         :return: Comment List
         """
-        return 0
-        #comments = []
+        
+        comments = []
         index = 0
         has_previous = True
 
         while has_previous and index < count:
-
+            number_of_comments_to_receive = 0
             if count - index > Instagram.MAX_COMMENTS_PER_REQUEST:
                 number_of_comments_to_receive = Instagram.MAX_COMMENTS_PER_REQUEST
             else:
                 number_of_comments_to_receive = count - index
 
-            variables = json.dumps({
-                'shortcode': str(code),
-                'first': str(number_of_comments_to_receive),
-                'after': str(max_id)
-            }, separators=(',', ':'))
+            variables = {
+                "shortcode": str(code),
+                "first": str(number_of_comments_to_receive),
+                "after": '' if not max_id else max_id
+            }
 
             comments_url = endpoints.get_comments_before_comments_id_by_code(
                 variables)
-            print(comments_url)
+
             time.sleep(self.sleep_between_requests)
             response = self.__req.get(comments_url,
                                       headers=self.generate_headers(
                                           self.user_session,
                                           self.__generate_gis_token(variables)))
-            # use a raw constant in the code is not a good idea!!
-            # if ($response->code !== 200) {
+
             if not response.status_code == Instagram.HTTP_OK:
                 raise InstagramException.default(response.text,
                                                  response.status_code)
 
             jsonResponse = response.json()
-            print(jsonResponse)
-            exit()
-            # nodes = $jsonResponse['data']['shortcode_media']['edge_media_to_comment']['edges'];
 
-            # foreach ($nodes as $commentArray) {
-            #     $comments[] = Comment::create($commentArray['node']);
-            #     $index++;
-            # }
-            # $hasPrevious = $jsonResponse['data']['shortcode_media']['edge_media_to_comment']['page_info']['has_next_page'];
+            nodes = jsonResponse['data']['shortcode_media']['edge_media_to_parent_comment']['edges']
 
-            # $numberOfComments = $jsonResponse['data']['shortcode_media']['edge_media_to_comment']['count'];
-            # if ($count > $numberOfComments) {
-            #     $count = $numberOfComments;
-            # }
-            # if (sizeof($nodes) == 0) {
-            #     return $comments;
-            # }
-            # $maxId = $jsonResponse['data']['shortcode_media']['edge_media_to_comment']['page_info']['end_cursor'];
+            for commentArray in nodes:
+                comment = Comment(commentArray['node'])
+                comments.append(comment)
+                index += 1
 
-        # $data['next_page'] = $maxId;
-        # $data['comments'] = $comments;
-        # return $data;
+            has_previous = jsonResponse['data']['shortcode_media']['edge_media_to_parent_comment']['page_info']['has_next_page']
+
+            number_of_comments = jsonResponse['data']['shortcode_media']['edge_media_to_parent_comment']['count']
+            if count > number_of_comments:
+                count = number_of_comments
+
+            max_id = jsonResponse['data']['shortcode_media']['edge_media_to_parent_comment']['page_info']['end_cursor']
+
+            if len(nodes) == 0: 
+                break
+            
+
+        data = {}
+        data['next_page'] = max_id
+        data['comments'] = comments
+        return data
 
     def get_account(self, username):
         """

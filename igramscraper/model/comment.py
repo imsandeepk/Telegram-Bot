@@ -16,7 +16,8 @@ class Comment(InitializerModel):
 
         super(Comment, self).__init__(props)
 
-    def init_properties_custom(self, value, prop):
+    def _init_properties_custom(self, value, prop, array):
+
         if prop == 'id':
            self.identifier = value
 

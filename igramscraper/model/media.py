@@ -4,7 +4,7 @@ import textwrap
 from .initializer_model import InitializerModel
 from .comment import Comment
 from .carousel_media import CarouselMedia
-from igramscraper import endpoints
+from .. import endpoints
 
 
 class Media(InitializerModel):

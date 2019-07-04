@@ -5,12 +5,19 @@ import json
 import hashlib
 import os
 from slugify import slugify
-from igramscraper.model import Account, Media, Tag, Like, Location, Story, Comment, CarouselMedia, UserStories 
-from igramscraper.exception import InstagramException, InstagramAuthException, InstagramNotFoundException
-from igramscraper.two_step_verification import ConsoleVerification
-from igramscraper import endpoints
-from igramscraper.session_manager import CookieSessionManager
-
+from .session_manager import CookieSessionManager
+from .exception.instagram_auth_exception import InstagramAuthException
+from .exception.instagram_exception import InstagramException
+from .exception.instagram_not_found_exception import InstagramNotFoundException
+from .model.account import Account
+from .model.comment import Comment
+from .model.location import Location
+from .model.media import Media
+from .model.story import Story
+from .model.user_stories import UserStories
+from .model.tag import Tag
+from . import endpoints
+from .two_step_verification.console_verification import ConsoleVerification
 
 class Instagram:
     HTTP_NOT_FOUND = 404
@@ -50,7 +57,7 @@ class Instagram:
 
         return Instagram
         """
-
+        print("hello")
         Instagram.instance_cache = None
 
         if not session_folder:
@@ -67,8 +74,10 @@ class Instagram:
 
         Instagram.instance_cache.empty_saved_cookies()
 
+       
         self.session_username = username
         self.session_password = password
+        print(username)
 
     def set_proxies(self, proxy):
         if proxy and isinstance(proxy, dict):

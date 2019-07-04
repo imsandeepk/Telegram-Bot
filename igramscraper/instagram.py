@@ -751,57 +751,72 @@ class Instagram:
         :param max_id:
         :return:
         """
-        pass
         # TODO implement
-        # remain = count
-        # likes = []
-        # index = 0
-        # hasPrevious = True
-        # #TODO: $index < $count (bug index getting to high since max_likes_per_request gets sometimes changed by instagram)
-        # while (hasPrevious and index < count):
-        #     if (remain > self.MAX_LIKES_PER_REQUEST):
-        #         numberOfLikesToRetreive = self.MAX_LIKES_PER_REQUEST
-        #         remain -= self.MAX_LIKES_PER_REQUEST
-        #         index += self.MAX_LIKES_PER_REQUEST
-        #     else:
-        #         numberOfLikesToRetreive = remain
-        #         index += remain
-        #         remain = 0
 
-        #     if (maxId != None):
-        #         maxId = ''
+        remain = count
+        likes = []
+        index = 0
+        has_previous = True
 
-        #     commentsUrl = endpoints.getLastLikesByCode(code, numberOfLikesToRetreive, maxId)
-        time.sleep(self.sleep_between_requests)
-        #     response = self.__req.get(commentsUrl, headers=self.generateHeaders(self.userSession))
+        #TODO: $index < $count (bug index getting to high since max_likes_per_request gets sometimes changed by instagram)
 
-        #     if (response.status_code != Instagram.HTTP_OK):
-        #         raise InstagramException(f'Response code is {response.status_code}. Body: {response.text} Something went wrong. Please report issue.', response.status_code)
+        while (has_previous and index < count):
+            if (remain > self.MAX_LIKES_PER_REQUEST):
+                number_of_likes_to_receive = self.MAX_LIKES_PER_REQUEST
+                remain -= self.MAX_LIKES_PER_REQUEST
+                index += self.MAX_LIKES_PER_REQUEST
+            else:
+                number_of_likes_to_receive = remain
+                index += remain
+                remain = 0
 
-        #     jsonResponse = response.json()
-        #     print(jsonResponse)
-        #     exit()
+            if (max_id != None):
+                max_id = ''
+            
+            variables = {
+                "shortcode": str(code),
+                "first": str(number_of_likes_to_receive),
+                "after": '' if not max_id else max_id
+            }
 
-        #     $nodes = $jsonResponse['data']['shortcode_media']['edge_liked_by']['edges'];
+            time.sleep(self.sleep_between_requests)
 
-        #     foreach ($nodes as $likesArray) {
-        #         $likes[] = Like::create($likesArray['node']);
-        #     }
+            response = self.__req.get(
+                endpoints.get_last_likes_by_code(variables), 
+                headers=self.generate_headers(self.user_session))
 
-        #     $hasPrevious = $jsonResponse['data']['shortcode_media']['edge_liked_by']['page_info']['has_next_page'];
-        #     $numberOfLikes = $jsonResponse['data']['shortcode_media']['edge_liked_by']['count'];
-        #     if ($count > $numberOfLikes) {
-        #         $count = $numberOfLikes;
-        #     }
-        #     if (sizeof($nodes) == 0) {
-        #         return $likes;
-        #     }
-        #     $maxId = $jsonResponse['data']['shortcode_media']['edge_liked_by']['page_info']['end_cursor'];
+            if not response.status_code == Instagram.HTTP_OK:
+                raise InstagramException.default(response.text,response.status_code)
 
-        # data['next_page'] = maxId
-        # data['likes'] = likes
+            jsonResponse = response.json()
 
-        # return data
+            nodes = jsonResponse['data']['shortcode_media']['edge_liked_by']['edges']
+
+            for likesArray in nodes:
+
+                like = Account(likesArray['node'])
+                likes.append(like)
+
+
+            has_previous = jsonResponse['data']['shortcode_media']['edge_liked_by']['page_info']['has_next_page']
+            number_of_likes = jsonResponse['data']['shortcode_media']['edge_liked_by']['count']
+            if count > number_of_likes: 
+                count = number_of_likes
+    
+            if len(nodes) == 0:
+                data = {}
+                data['next_page'] = max_id
+                data['accounts'] = likes
+
+                return data
+    
+            max_id = jsonResponse['data']['shortcode_media']['edge_liked_by']['page_info']['end_cursor']
+
+        data = {}
+        data['next_page'] = max_id
+        data['accounts'] = likes
+
+        return data
 
     def get_followers(self, account_id, count=20, page_size=20, end_cursor='',
                       delayed=True):
@@ -996,7 +1011,7 @@ class Instagram:
         :return: Comment List
         """
         return 0
-        comments = []
+        #comments = []
         index = 0
         has_previous = True
 

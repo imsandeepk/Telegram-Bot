@@ -8,4 +8,4 @@ from igramscraper.model.carousel_media import CarouselMedia
 from igramscraper.model.initializer_model import InitializerModel
 from igramscraper.model.user_stories import UserStories
 
-__all__ = ["Account", "Media", "Tag", "Like", "Location", "Story", "Comment", "CarouselMedia", "InitializerModel", "UserStories"]
+__all__ = ["Account", "Media", "Tag", "Location", "Story", "Comment", "CarouselMedia", "InitializerModel", "UserStories"]

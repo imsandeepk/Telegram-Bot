@@ -1,5 +1,5 @@
 #TODO does not work currently instagram changed api
-from igramscraper.instagram import Instagram
+from context import Instagram # pylint: disable=no-name-in-module
 from time import sleep
 
 instagram = Instagram()

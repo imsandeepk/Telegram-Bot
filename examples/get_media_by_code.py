@@ -1,4 +1,4 @@
-from igramscraper.instagram import Instagram
+from context import Instagram # pylint: disable=no-name-in-module
 
 # If account is public you can query Instagram without auth
 instagram = Instagram()

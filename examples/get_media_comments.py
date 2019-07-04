@@ -1,6 +1,6 @@
 #TODO does not work currently instagram changed api
 
-from igramscraper.instagram import Instagram
+from context import Instagram # pylint: disable=no-name-in-module
 
 instagram = Instagram()
 instagram.with_credentials('username', 'password', 'path/to/cache/folder')

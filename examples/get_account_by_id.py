@@ -1,4 +1,4 @@
-from igramscraper.instagram import Instagram
+from context import Instagram # pylint: disable=no-name-in-module
 
 account = Instagram().get_account_by_id('3')
 

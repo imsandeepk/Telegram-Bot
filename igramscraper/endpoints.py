@@ -67,7 +67,7 @@ def get_medias_json_by_location_id_link(facebook_location_id, max_id=''):
 
 
 def get_medias_json_by_tag_link(tag, max_id=''):
-    return MEDIA_JSON_BY_TAG % (urllib.parse.quote_plus(tag), urllib.parse.quote_plus(max_id))
+    return MEDIA_JSON_BY_TAG % (urllib.parse.quote_plus(str(tag)), urllib.parse.quote_plus(str(max_id)))
 
 
 def get_general_search_json_link(query):

@@ -78,7 +78,7 @@ class Media(InitializerModel):
         return code
 
     def __str__(self):
-        string = f'''
+        string = f"""
         Media Info:
         'Id: {self.identifier}
         Shortcode: {self.short_code}
@@ -90,7 +90,7 @@ class Media(InitializerModel):
         Link: {self.link}
         Hig res image: {self.image_high_resolution_url}
         Media type: {self.type}
-        '''
+        """
 
         return textwrap.dedent(string)
 
@@ -255,12 +255,12 @@ class Media(InitializerModel):
         print(carousel_array)
         # TODO implement
         pass
-        '''
+        """
         param mediaArray
         param carouselArray
         param instance
         return mixed
-        '''
+        """
         # carousel_media = CarouselMedia()
         # carousel_media.type(carousel_array['type'])
 

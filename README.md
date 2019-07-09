@@ -85,7 +85,7 @@ See examples [here](https://github.com/SergioWagenleitner/instagram-scraper/tree
 ## How to contribute
 Every contribution is welcome, check out our [TODOs](https://github.com/realsirjoe/instagram-scraper/blob/master/CONTRIBUTING.md)
 <br />
-and join our telegram group: https://t.me/joinchat/AAAAAFEbhU2b14Dh7w8Zhw
+and join our telegram group: https://t.me/joinchat/J86yTBAtZlEi-6T6LOxijw
 
 ## Other
 instagram-php-scraper [here](https://github.com/postaddictme/instagram-php-scraper/)

@@ -55,7 +55,7 @@ class Account(InitializerModel):
         Username: {self.username if hasattr(self, 'username') else '-'}
         Full Name: {self.full_name if hasattr(self, 'full_name') else '-'}
         Bio: {self.biography if hasattr(self, 'biography') else '-'}
-        Profile Pic Url: {self.get_profile_picture_url}
+        Profile Pic Url: {self.get_profile_picture_url()}
         External url: {self.external_url if hasattr(self, 'external_url') else '-'}
         Number of published posts: {self.media_count if hasattr(self, 'mediaCount') else '-'}
         Number of followers: {self.followed_by_count if hasattr(self, 'followed_by_count') else '-'}

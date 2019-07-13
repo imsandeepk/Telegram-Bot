@@ -65,7 +65,7 @@ class TestIgramscraper(unittest.TestCase):
         try:
             self.instagram.get_account_by_id(sys.maxsize)
         except Exception as e:
-            self.assertEqual(str(e), 'Failed to fetch account with given id')
+            self.assertEqual(str(e), 'Failed to fetch account with given id, Code:404')
 
     def test_get_location_top_medias_by_id(self):
         medias = self.instagram.get_current_top_medias_by_tag_name(1)
@@ -95,7 +95,7 @@ class TestIgramscraper(unittest.TestCase):
     def test_get_media_comments_by_code(self):
         comments = self.instagram.get_media_comments_by_code('BR5Njq1gKmB', 40)
         #TODO: check why returns less comments
-        self.assertLessEqual(40, len(comments))
+        self.assertLessEqual(40, len(comments['comments']))
 
     def test_get_username_by_id(self):
         username = self.instagram.get_username_by_id(3)

@@ -63,8 +63,6 @@ class Media(InitializerModel):
 
     @staticmethod
     def get_code_from_id(id):
-        id = int(id)
-
         parts = str(id).partition('_')
         id = int(parts[0])
         alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'

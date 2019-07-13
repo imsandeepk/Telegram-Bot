@@ -95,7 +95,7 @@ class TestIgramscraper(unittest.TestCase):
     def test_get_media_comments_by_code(self):
         comments = self.instagram.get_media_comments_by_code('BR5Njq1gKmB', 40)
         #TODO: check why returns less comments
-        self.assertLessEqual(40, len(comments))
+        self.assertLessEqual(40, len(comments['comments']))
 
     def test_get_username_by_id(self):
         username = self.instagram.get_username_by_id(3)

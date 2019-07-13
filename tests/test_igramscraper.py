@@ -65,7 +65,7 @@ class TestIgramscraper(unittest.TestCase):
         try:
             self.instagram.get_account_by_id(sys.maxsize)
         except Exception as e:
-            self.assertEqual(str(e), 'Failed to fetch account with given id')
+            self.assertEqual(str(e), 'Failed to fetch account with given id, Code:404')
 
     def test_get_location_top_medias_by_id(self):
         medias = self.instagram.get_current_top_medias_by_tag_name(1)

@@ -17,7 +17,7 @@ class InitializerModel:
 
         self.modified = time.time()
 
-        if len(props) > 0:
+        if props is not None and len(props) > 0:
             self._init(props)
 
     def _init(self, props):

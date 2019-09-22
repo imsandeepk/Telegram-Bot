@@ -74,7 +74,7 @@ class Instagram:
 
         Instagram.instance_cache.empty_saved_cookies()
 
-       
+
         self.session_username = username
         self.session_password = password
 
@@ -148,7 +148,7 @@ class Instagram:
         headers = {}
         if session is not None:
             cookies = ''
-            
+
             for key in session.keys():
                 cookies += f"{key}={session[key]}; "
 
@@ -771,7 +771,7 @@ class Instagram:
 
             if (max_id != None):
                 max_id = ''
-            
+
             variables = {
                 "shortcode": str(code),
                 "first": str(number_of_likes_to_receive),
@@ -781,7 +781,7 @@ class Instagram:
             time.sleep(self.sleep_between_requests)
 
             response = self.__req.get(
-                endpoints.get_last_likes_by_code(variables), 
+                endpoints.get_last_likes_by_code(variables),
                 headers=self.generate_headers(self.user_session))
 
             if not response.status_code == Instagram.HTTP_OK:
@@ -799,16 +799,16 @@ class Instagram:
 
             has_previous = jsonResponse['data']['shortcode_media']['edge_liked_by']['page_info']['has_next_page']
             number_of_likes = jsonResponse['data']['shortcode_media']['edge_liked_by']['count']
-            if count > number_of_likes: 
+            if count > number_of_likes:
                 count = number_of_likes
-    
+
             if len(nodes) == 0:
                 data = {}
                 data['next_page'] = max_id
                 data['accounts'] = likes
 
                 return data
-    
+
             max_id = jsonResponse['data']['shortcode_media']['edge_liked_by']['page_info']['end_cursor']
 
         data = {}
@@ -900,7 +900,7 @@ class Instagram:
                 # Random wait between 1 and 3 sec to mimic browser
                 microsec = random.uniform(1.0, 3.0)
                 time.sleep(microsec)
-                
+
         data = {}
         data['next_page'] = next_page
         data['accounts'] = accounts
@@ -986,6 +986,7 @@ class Instagram:
                 microsec = random.uniform(1.0, 3.0)
                 time.sleep(microsec)
 
+        data = {}
         data['next_page'] = next_page
         data['accounts'] = accounts
 
@@ -1009,7 +1010,7 @@ class Instagram:
         :param max_id: used to paginate
         :return: Comment List
         """
-        
+
         comments = []
         index = 0
         has_previous = True
@@ -1057,9 +1058,9 @@ class Instagram:
 
             max_id = jsonResponse['data']['shortcode_media']['edge_media_to_parent_comment']['page_info']['end_cursor']
 
-            if len(nodes) == 0: 
+            if len(nodes) == 0:
                 break
-            
+
 
         data = {}
         data['next_page'] = max_id
@@ -1437,7 +1438,7 @@ class Instagram:
         :return: Comment
         """
         media_id = media_id.identifier if isinstance(media_id, Media) else media_id
-        
+
         replied_to_comment_id = replied_to_comment_id._data['id'] if isinstance(replied_to_comment_id, Comment) else replied_to_comment_id
 
         body = {'comment_text': text,

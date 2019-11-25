@@ -57,7 +57,7 @@ class Account(InitializerModel):
         Bio: {self.biography if hasattr(self, 'biography') else '-'}
         Profile Pic Url: {self.get_profile_picture_url()}
         External url: {self.external_url if hasattr(self, 'external_url') else '-'}
-        Number of published posts: {self.media_count if hasattr(self, 'mediaCount') else '-'}
+        Number of published posts: {self.media_count if hasattr(self, 'media_count') else '-'}
         Number of followers: {self.followed_by_count if hasattr(self, 'followed_by_count') else '-'}
         Number of follows: {self.follows_count if hasattr(self, 'follows_count') else '-'}
         Is private: {self.is_private if hasattr(self, 'is_private') else '-'}

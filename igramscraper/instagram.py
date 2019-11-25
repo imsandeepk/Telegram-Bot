@@ -769,8 +769,6 @@ class Instagram:
                 index += remain
                 remain = 0
 
-            if (max_id != None):
-                max_id = ''
 
             variables = {
                 "shortcode": str(code),

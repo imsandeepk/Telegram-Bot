@@ -46,9 +46,7 @@ class Instagram:
         self.user_session = None
         self.rhx_gis = None
         self.sleep_between_requests = sleep_between_requests
-        self.user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) ' \
-                          'AppleWebKit/537.36 (KHTML, like Gecko) ' \
-                          'Chrome/66.0.3359.139 Safari/537.36'
+        self.user_agent = 'Instagram 126.0.0.25.121 Android (23/6.0.1; 320dpi; 720x1280; samsung; SM-A310F; a3xelte; samsungexynos7580; en_GB; 110937453)'
 
     def with_credentials(self, username, password, session_folder=None):
         """

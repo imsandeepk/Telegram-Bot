@@ -623,11 +623,11 @@ class Instagram:
             'hasNextPage': has_next_page,
         }
 
-        variables = json.dumps({
+        variables = {
             'id': str(account.identifier),
             'first': str(endpoints.request_media_count),
             'after': str(max_id)
-        }, separators=(',', ':'))
+        }
 
         time.sleep(self.sleep_between_requests)
         response = self.__req.get(

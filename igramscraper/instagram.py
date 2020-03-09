@@ -1339,9 +1339,11 @@ class Instagram:
                         'Something went wrong. Please report issue.',
                         response.status_code)
             print(response.text)
-            if not response.json()['authenticated']:
-                raise InstagramAuthException('User credentials are wrong.')
-
+            try:
+                if not response.json()['authenticated']:
+                    raise InstagramAuthException('User credentials are wrong.')
+            except:
+                raise InstagramException("Response not json valid")
             cookies = response.cookies.get_dict()
 
             cookies['mid'] = mid

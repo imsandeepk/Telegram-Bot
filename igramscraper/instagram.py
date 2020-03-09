@@ -1412,11 +1412,11 @@ class Instagram:
                                            data={'choice': selected_choice},
                                            headers=headers)
         # print(response.text)
-        if len(re.findall('name="security_code"', response.text)) <= 0:
-            raise InstagramAuthException(
-                'Something went wrong when try '
-                'two step verification. Please report issue.',
-                response.status_code)
+        # if len(re.findall('name="security_code"', response.text)) <= 0:
+        #     raise InstagramAuthException(
+        #         'Something went wrong when try '
+        #         'two step verification. Please report issue.',
+        #         response.status_code)
 
         security_code = two_step_verificator.get_security_code()
 

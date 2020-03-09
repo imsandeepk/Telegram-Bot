@@ -1319,7 +1319,7 @@ class Instagram:
                        'password': self.session_password}
             response = self.__req.post(endpoints.LOGIN_URL, data=payload,
                                        headers=headers)
-            print(response.json())
+
             if not response.status_code == Instagram.HTTP_OK:
                 if (
                         response.status_code == Instagram.HTTP_BAD_REQUEST

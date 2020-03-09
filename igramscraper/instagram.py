@@ -1385,7 +1385,7 @@ class Instagram:
             try:
                 choices = \
                     data['entry_data']['Challenge'][0]['extraData']['content'][
-                        3]['fields'][0]['value']
+                        2]['fields'][0]['value']
                 print("Choices here")
             except KeyError:
                 choices = dict()
@@ -1405,7 +1405,7 @@ class Instagram:
 
                 except KeyError:
                     pass
-
+            print(choices)
             if len(choices) > 0:
                 selected_choice = two_step_verificator.get_verification_type(
                     choices)
@@ -1413,11 +1413,11 @@ class Instagram:
                                            data={'choice': selected_choice},
                                            headers=headers)
         # print(response.text)
-        # if len(re.findall('name="security_code"', response.text)) <= 0:
-        #     raise InstagramAuthException(
-        #         'Something went wrong when try '
-        #         'two step verification. Please report issue.',
-        #         response.status_code)
+        if len(re.findall('name="security_code"', response.text)) <= 0:
+            raise InstagramAuthException(
+                'Something went wrong when try '
+                'two step verification. Please report issue.',
+                response.status_code)
 
         security_code = two_step_verificator.get_security_code()
 

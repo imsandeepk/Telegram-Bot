@@ -1338,7 +1338,7 @@ class Instagram:
                     raise InstagramAuthException(
                         'Something went wrong. Please report issue.',
                         response.status_code)
-            print(response.json())
+            print(response.text)
             if not response.json()['authenticated']:
                 raise InstagramAuthException('User credentials are wrong.')
 

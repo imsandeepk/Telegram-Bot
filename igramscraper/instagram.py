@@ -813,16 +813,18 @@ class Instagram:
 
         return data
 
-    def get_followers(self, account_id, count=20, page_size=20, rate_limit_sleep=(10.0, 50.0),
-                      delayed_time=(2.0, 6.0), end_cursor='',
+    def get_followers(self, account_id, count=20, page_size=20, rate_limit_sleep_min=10.0, rate_limit_sleep_max=50.0,
+                      delayed_time_min=2.0, delayed_time_max=6.0, end_cursor='',
                       delayed=True):
 
         """
         :param account_id:
         :param count:
         :param page_size:
-        :param rate_limit_sleep:
-        :param delayed_time:
+        :param rate_limit_sleep_min:
+        :param rate_limit_sleep_max:
+        :param delayed_time_min:
+        :param delayed_time_max:
         :param end_cursor:
         :param delayed:
         :return:
@@ -858,7 +860,7 @@ class Instagram:
 
             if not response.status_code == Instagram.HTTP_OK:
                 if response.status_code == 429:
-                    time.sleep(random.uniform(rate_limit_sleep[0], rate_limit_sleep[1]))
+                    time.sleep(random.uniform(rate_limit_sleep_min, rate_limit_sleep_max))
                 raise InstagramException.default(response.text,
                                                  response.status_code)
 
@@ -899,7 +901,7 @@ class Instagram:
 
             if delayed != None:
                 # Random wait between 1 and 3 sec to mimic browser
-                microsec = random.uniform(delayed_time[0], delayed_time[1])
+                microsec = random.uniform(delayed_time_min, delayed_time_max)
                 time.sleep(microsec)
 
         data = {}
@@ -908,15 +910,17 @@ class Instagram:
 
         return data
 
-    def get_following(self, account_id, count=20, page_size=20, rate_limit_sleep=(10.0, 50.0),
-                      delayed_time=(2.0, 6.0), end_cursor='',
+    def get_following(self, account_id, count=20, page_size=20, rate_limit_sleep_min=10.0, rate_limit_sleep_max=50.0,
+                      delayed_time_min=2.0, delayed_time_max=6.0, end_cursor='',
                       delayed=True):
         """
         :param account_id:
         :param count:
         :param page_size:
-        :param rate_limit_sleep:
-        :param delayed_time:
+        :param rate_limit_sleep_min:
+        :param delayed_time_min:
+        :param rate_limit_sleep_max:
+        :param delayed_time_max:
         :param end_cursor:
         :param delayed:
         :return:
@@ -952,7 +956,7 @@ class Instagram:
 
             if not response.status_code == Instagram.HTTP_OK:
                 if response.status_code == 429:
-                    time.sleep(random.uniform(rate_limit_sleep[0], rate_limit_sleep[1]))
+                    time.sleep(random.uniform(rate_limit_sleep_min, rate_limit_sleep_max))
                 raise InstagramException.default(response.text,response.status_code)
 
             jsonResponse = response.json()
@@ -989,7 +993,7 @@ class Instagram:
 
             if delayed != None:
                 # Random wait between 1 and 3 sec to mimic browser
-                microsec = random.uniform(delayed_time[0], delayed_time[1])
+                microsec = random.uniform(delayed_time_min, delayed_time_max)
                 time.sleep(microsec)
 
         data = {}
@@ -1404,19 +1408,19 @@ class Instagram:
 
                 except KeyError:
                     pass
-            print(choices)
+
             if len(choices) > 0:
                 selected_choice = two_step_verificator.get_verification_type(
                     choices)
                 response = self.__req.post(url,
                                            data={'choice': selected_choice},
                                            headers=headers)
-        # print(response.text)
-        # if len(re.findall('name="security_code"', response.text)) <= 0:
-        #     raise InstagramAuthException(
-        #         'Something went wrong when try '
-        #         'two step verification. Please report issue.',
-        #         response.status_code)
+
+        if len(re.findall('name="security_code"', response.text)) <= 0:
+            raise InstagramAuthException(
+                'Something went wrong when try '
+                'two step verification. Please report issue.',
+                response.status_code)
 
         security_code = two_step_verificator.get_security_code()
 

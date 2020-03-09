@@ -1343,7 +1343,7 @@ class Instagram:
                 if not response.json()['authenticated']:
                     raise InstagramAuthException('User credentials are wrong.')
             except:
-                raise InstagramException("Response not json valid")
+                pass
             cookies = response.cookies.get_dict()
 
             cookies['mid'] = mid

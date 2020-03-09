@@ -1412,7 +1412,7 @@ class Instagram:
                 response = self.__req.post(url,
                                            data={'choice': selected_choice},
                                            headers=headers)
-
+        print(response.text)
         if len(re.findall('name="security_code"', response.text)) <= 0:
             raise InstagramAuthException(
                 'Something went wrong when try '

@@ -1319,7 +1319,7 @@ class Instagram:
                        'password': self.session_password}
             response = self.__req.post(endpoints.LOGIN_URL, data=payload,
                                        headers=headers)
-
+            print(response.json())
             if not response.status_code == Instagram.HTTP_OK:
                 if (
                         response.status_code == Instagram.HTTP_BAD_REQUEST
@@ -1338,12 +1338,10 @@ class Instagram:
                     raise InstagramAuthException(
                         'Something went wrong. Please report issue.',
                         response.status_code)
-            print(response.text)
-            try:
-                if not response.json()['authenticated']:
-                    raise InstagramAuthException('User credentials are wrong.')
-            except:
-                pass
+
+            if not response.json()['authenticated']:
+                raise InstagramAuthException('User credentials are wrong.')
+
             cookies = response.cookies.get_dict()
 
             cookies['mid'] = mid

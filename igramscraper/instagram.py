@@ -813,13 +813,16 @@ class Instagram:
 
         return data
 
-    def get_followers(self, account_id, count=20, page_size=20, end_cursor='',
+    def get_followers(self, account_id, count=20, page_size=20, rate_limit_sleep=(10.0, 50.0),
+                      delayed_time=(2.0, 6.0), end_cursor='',
                       delayed=True):
 
         """
         :param account_id:
         :param count:
         :param page_size:
+        :param rate_limit_sleep:
+        :param delayed_time:
         :param end_cursor:
         :param delayed:
         :return:
@@ -854,6 +857,8 @@ class Instagram:
                 headers=headers)
 
             if not response.status_code == Instagram.HTTP_OK:
+                if response.status_code == 429:
+                    time.sleep(random.uniform(rate_limit_sleep[0], rate_limit_sleep[1]))
                 raise InstagramException.default(response.text,
                                                  response.status_code)
 
@@ -894,7 +899,7 @@ class Instagram:
 
             if delayed != None:
                 # Random wait between 1 and 3 sec to mimic browser
-                microsec = random.uniform(1.0, 3.0)
+                microsec = random.uniform(delayed_time[0], delayed_time[1])
                 time.sleep(microsec)
 
         data = {}
@@ -903,12 +908,15 @@ class Instagram:
 
         return data
 
-    def get_following(self, account_id, count=20, page_size=20, end_cursor='',
+    def get_following(self, account_id, count=20, page_size=20, rate_limit_sleep=(10.0, 50.0),
+                      delayed_time=(2.0, 6.0), end_cursor='',
                       delayed=True):
         """
         :param account_id:
         :param count:
         :param page_size:
+        :param rate_limit_sleep:
+        :param delayed_time:
         :param end_cursor:
         :param delayed:
         :return:
@@ -943,6 +951,8 @@ class Instagram:
                 headers=headers)
 
             if not response.status_code == Instagram.HTTP_OK:
+                if response.status_code == 429:
+                    time.sleep(random.uniform(rate_limit_sleep[0], rate_limit_sleep[1]))
                 raise InstagramException.default(response.text,response.status_code)
 
             jsonResponse = response.json()
@@ -979,7 +989,7 @@ class Instagram:
 
             if delayed != None:
                 # Random wait between 1 and 3 sec to mimic browser
-                microsec = random.uniform(1.0, 3.0)
+                microsec = random.uniform(delayed_time[0], delayed_time[1])
                 time.sleep(microsec)
 
         data = {}

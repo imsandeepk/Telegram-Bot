@@ -1385,8 +1385,7 @@ class Instagram:
             try:
                 choices = \
                     data['entry_data']['Challenge'][0]['extraData']['content'][
-                        2]['fields'][0]['value']
-                print("Choices here")
+                        3]['fields'][0]['values']
             except KeyError:
                 choices = dict()
                 try:

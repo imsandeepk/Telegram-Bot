@@ -7,13 +7,11 @@ class ConsoleVerification(TwoStepVerificationAbstractClass):
         if (len(choices) > 1):
             possible_values = {}
             print('Select where to send security code')
-            if type(choices) ==list:
-                for choice in choices:
-                    print(choice['label'] + ' - ' + str(choice['value']))
-                    possible_values[str(choice['value'])] = True
-            else:
-                print(choices['label'] + ' - ' + str(choices['value']))
-                possible_values[str(choices['value'])] = True
+
+            for choice in choices:
+                print(choice['label'] + ' - ' + str(choice['value']))
+                possible_values[str(choice['value'])] = True
+
             selected_choice = None
 
             while (not selected_choice in possible_values.keys()):

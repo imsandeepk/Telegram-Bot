@@ -871,7 +871,7 @@ class Instagram:
 
             edgesArray = jsonResponse['data']['user']['edge_followed_by'][
                 'edges']
-            if len(edgesArray) == 0:
+            if len(edgesArray) == 0 and index > 2:
                 InstagramException(
                     f'Failed to get followers of account id {account_id}.'
                     f' The account is private.',
@@ -933,7 +933,6 @@ class Instagram:
 
         index = 0
         accounts = []
-
         next_page = end_cursor
 
         if count < page_size:
@@ -963,10 +962,11 @@ class Instagram:
             if jsonResponse['data']['user']['edge_follow']['count'] == 0:
                 return accounts
 
-            edgesArray = jsonResponse['data']['user']['edge_follow'][
-                'edges']
+            edgesArray = jsonResponse['data']['user']['edge_follow']['edges']
 
-            if len(edgesArray) == 0:
+            #confirmation of presence of previous increments of indexes making sure account
+            #is not a private account
+            if len(edgesArray) == 0 and index > 2:
                 raise InstagramException(
                     f'Failed to get follows of account id {account_id}.'
                     f' The account is private.',
@@ -1348,7 +1348,7 @@ class Instagram:
                 'user-agent': self.user_agent,
             }
             payload = {'username': self.session_username,
-                       'password': self.session_password}
+                       'enc_password': f"#PWD_INSTAGRAM_BROWSER:0:{int(time.time())}:{self.session_password}"}
             response = self.__req.post(endpoints.LOGIN_URL, data=payload,
                                        headers=headers)
 
